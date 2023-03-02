@@ -1,5 +1,6 @@
 package bg.softuni.ecommerce.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,13 +14,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "likes")
-public class Like extends BaseEntity {
+@Table(name = "pictures")
+public class PictureEntity extends BaseEntity {
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String url;
 
     @ManyToOne
-    private UserEntity user;
+    private UserEntity author;
 
     @ManyToOne
-    private Item item;
-
+    private ItemEntity item;
 }

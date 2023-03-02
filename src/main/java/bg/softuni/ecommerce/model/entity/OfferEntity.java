@@ -16,10 +16,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "offers")
-public class Offer extends BaseEntity {
+public class OfferEntity extends BaseEntity {
 
     @ManyToOne
-    private Item item;
+    private ItemEntity item;
 
     @ManyToOne
     private UserEntity seller;

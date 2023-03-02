@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "items")
-public class Item extends BaseEntity {
+public class ItemEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -22,6 +22,9 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ItemType itemType;
+
+    @ManyToOne
+    private BrandEntity brand;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
