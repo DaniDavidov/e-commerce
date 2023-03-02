@@ -109,6 +109,24 @@
                 </div>
             </div>
             <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="gender">Gender</label>
+                <select
+                        id="gender"
+                        name="gender"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="">- Select gender -</option>
+                    <option th:each="e : ${T(bg.softuni.ecommerce.model.entity.enums.GenderEnum).values()}"
+                            th:text="${e}"
+                            th:value="${e}"
+                            th:selected="${e} == *{gender}"> Gender
+                    </option>
+                </select>
+                <p class="invalid-feedback text-danger">
+                    Gender is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
                 <label for="password" class="text-white font-weight-bold">Password</label>
                 <input
                         id="password"

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +19,13 @@ import java.time.LocalDate;
 public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = false, name = "first_name")
     private String firstName;
@@ -34,5 +41,22 @@ public class UserEntity extends BaseEntity {
 
     private String address;
 
+    @ManyToMany
+    private List<UserRoleEntity> userRoles;
 
+    public UserEntity(String username,
+                      String email,
+                      String password,
+                      String firstName,
+                      String lastName,
+                      String phoneNumber,
+                      GenderEnum gender) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+    }
 }
