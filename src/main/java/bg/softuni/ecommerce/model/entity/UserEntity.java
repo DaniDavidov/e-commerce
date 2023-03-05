@@ -41,7 +41,7 @@ public class UserEntity extends BaseEntity {
 
     private String address;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles;
 
     public UserEntity(String username,

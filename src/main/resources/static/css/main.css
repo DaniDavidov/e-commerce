@@ -1,11 +1,10 @@
 body{
     color: #fff;
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     background-color: #202020;
-    padding: 10px;
 }
  form{
     max-width: 700px;
@@ -15,10 +14,10 @@ body{
     background: #1b1e21;
 }
 
-.navbar .logo {
-    max-height: 50px;
-    padding-right: 100px;
-}
+/*.navbar .logo {*/
+/*    max-height: 50px;*/
+/*    padding-right: 100px;*/
+/*}*/
 
 .container, .container-fluid {
     padding-top: 90px;
