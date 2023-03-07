@@ -21,6 +21,9 @@ public class OfferEntity extends BaseEntity {
     @ManyToOne
     private ItemEntity item;
 
+    @Column(nullable = false)
+    private String name;
+
     @ManyToOne
     private UserEntity seller;
 

@@ -18,6 +18,10 @@ body{
 /*    max-height: 50px;*/
 /*    padding-right: 100px;*/
 /*}*/
+.navbar > li {
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
 .container, .container-fluid {
     padding-top: 90px;

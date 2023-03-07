@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MobiLeLeLe</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar"></div>
+
+
+<div class="container">
+    <h2 class="text-center text-white">Upload Offer</h2>
+    <form   th:action="@{/offers/add}"
+            th:method="post"
+            th:object="${createOfferDto}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="brandId">Brand</label>
+                <select id="brandId"
+                        name="brandId"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="">- Select a brand -</option>
+                    <option th:each="brand : ${brands}"
+                            th:text="${brand.name}"
+                            th:value="${brand.id}"
+                            th:selected="${brand.id} == *{brandId}"
+                    >
+                        Brand
+                    </option>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Brand is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="year" class="text-white font-weight-bold">Year</label>
+                <input id="year"
+                       type="number"
+                       min="1900"
+                       max="2099"
+                       step="1"
+                       th:field="*{manufactureYear}"
+                       th:errorclass="is-invalid"
+                       class="form-control"
+                       placeholder="Manufacturing year"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Manufacturing year is required.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="name" class="text-white font-weight-bold">Name</label>
+                <input id="name"
+                       type="text"
+                       min="0"
+                       step="100"
+                       th:field="*{name}"
+                       th:errorclass="is-invalid"
+                       class="form-control"
+                       placeholder="Suggested name"/>
+                <p  class="invalid-feedback errors alert alert-danger">
+                    Suggested name is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="price" class="text-white font-weight-bold">Price</label>
+                <input id="price"
+                       type="number"
+                       min="0"
+                       step="100"
+                       th:field="*{price}"
+                       th:errorclass="is-invalid"
+                       class="form-control"
+                       placeholder="Suggested price"/>
+                <p  class="invalid-feedback errors alert alert-danger">
+                    Suggested price is required.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="clotheType">Clothe type</label>
+                <select
+                        id="clotheType"
+                        name="clotheType"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="">- Select clothe type -</option>
+                    <option th:each="e : ${T(bg.softuni.ecommerce.model.entity.enums.ItemType).values()}"
+                            th:text="${e}"
+                            th:value="${e}"
+                            th:selected="${e} == *{clotheType}"
+                            >
+                        Clothe type
+                    </option>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Clothe type is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="size">Size</label>
+                <select
+                        id="size"
+                        name="size"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="">- Select size -</option>
+                    <option th:each="e : ${T(bg.softuni.ecommerce.model.entity.enums.SizeEnum).values()}"
+                            th:text="${e}"
+                            th:value="${e}"
+                            th:selected="${e} == *{size}"> Size
+                    </option>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Size is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="description">Description</label>
+            <textarea id="description"
+                      type="textarea"
+                      th:field="*{description}"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="imageUrl">Image URL</label>
+            <input id="imageUrl"
+                   type="url"
+                   th:field="*{imageUrl}"
+                   th:errorclass="is-invalid"
+                   class="form-control"
+                   placeholder="Put vehicle image URL here">
+            <p class="invalid-feedback errors alert alert-danger">
+                Image URL is required.
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Submit Offer"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <footer> </footer>
+</div>
+
+</body>
+</html>
