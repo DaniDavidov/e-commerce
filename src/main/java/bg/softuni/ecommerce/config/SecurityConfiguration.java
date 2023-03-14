@@ -2,7 +2,6 @@ package bg.softuni.ecommerce.config;
 
 import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.service.EcommerceUserDetailsService;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/users/register", "/users/login", "/offers/add").permitAll()
+                .requestMatchers("/", "/users/register", "/users/login", "/offers/add", "/offers/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -46,8 +45,4 @@ public class SecurityConfiguration {
         return new EcommerceUserDetailsService(userRepository);
     }
 
-    @Bean
-    public ModelMapper createModelMapper() {
-        return new ModelMapper();
-    }
 }

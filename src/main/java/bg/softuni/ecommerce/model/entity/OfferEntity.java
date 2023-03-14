@@ -1,5 +1,6 @@
 package bg.softuni.ecommerce.model.entity;
 
+import bg.softuni.ecommerce.model.entity.enums.OfferRating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,14 +25,19 @@ public class OfferEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    private OfferRating rating;
+
     @ManyToOne
     private UserEntity seller;
 
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(name = "created_at")
     private LocalDate createdAt;
 
+    @Column(name = "updated_at")
     private LocalDate updatedAt;
 
 

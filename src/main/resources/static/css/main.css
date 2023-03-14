@@ -1,17 +1,17 @@
 body{
-    color: #fff;
+    color: #181818;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-color: #202020;
+    background-color: #282828;
 }
  form{
     max-width: 700px;
     width: 100%;
     padding: 25px 30px;
     border-radius: 25px;
-    background: #1b1e21;
+    background: #F8F8F8;
 }
 
 /*.navbar .logo {*/

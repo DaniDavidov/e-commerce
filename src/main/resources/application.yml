@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/e_commerce?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
+    url: "jdbc:mysql://localhost:3306/ecommerce?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
     username: root
     password: 181315durwo
   sql:
@@ -14,7 +14,7 @@ spring:
     #For MySQL 5
     #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     open-in-view: false
     properties:
       hibernate:

@@ -15,7 +15,7 @@ import lombok.Setter;
 @Table(name = "user_roles")
 public class UserRoleEntity extends BaseEntity {
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private UserRoleEnum name;
 

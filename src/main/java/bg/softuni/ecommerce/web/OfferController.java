@@ -5,6 +5,8 @@ import bg.softuni.ecommerce.model.dto.CreateOfferDto;
 import bg.softuni.ecommerce.service.BrandService;
 import bg.softuni.ecommerce.service.OfferService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,7 @@ public class OfferController {
         return "offer-add";
     }
 
+
     @PostMapping("/offers/add")
     public String addOffer(@Valid CreateOfferDto createOfferDto,
                            BindingResult bindingResult,
@@ -54,5 +57,11 @@ public class OfferController {
 
         this.offerService.createOffer(createOfferDto, userDetails);
         return "redirect:/";
+    }
+
+    @GetMapping("/offers/all")
+    public String allOffers(Model model, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        model.addAttribute("offers", this.offerService.getAllOffers(pageable));
+        return "offers";
     }
 }

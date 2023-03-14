@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +18,13 @@ public class ItemEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ItemType itemType;
+    private ItemType type;
 
-    @Column(nullable = false)
+    @Column(name = "manufacture_year", nullable = false)
     private Integer manufactureYear;
+
+    @ManyToOne
+    private PictureEntity picture;
 
     @ManyToOne
     private BrandEntity brand;

@@ -11,6 +11,8 @@ public class BrandDto {
 
     private Long id;
 
+    private String imageUrl;
+
     private String name;
 
 }
