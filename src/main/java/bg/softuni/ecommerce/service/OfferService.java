@@ -71,6 +71,7 @@ public class OfferService {
                 offerEntity.getName(),
                 offerEntity.getItem().getBrand().getName(),
                 offerEntity.getItem().getType(),
+                offerEntity.getItem().getPicture().getUrl(),
                 offerEntity.getItem().getSize(),
                 offerEntity.getPrice(),
                 offerEntity.getRating(),

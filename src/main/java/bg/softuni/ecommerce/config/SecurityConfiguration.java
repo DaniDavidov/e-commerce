@@ -22,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/users/register", "/users/login", "/offers/add", "/offers/all").permitAll()
+                .requestMatchers("/", "/users/register", "/users/login", "/offers/add", "/offers/all", "/users/login-error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -30,7 +30,17 @@ public class SecurityConfiguration {
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/", true)
-                .failureForwardUrl("/users/login-error");
+                .failureForwardUrl("/users/login-error")
+                .and()
+                // configure logout
+                .logout()
+                // which is the logout url, must be POST request
+                .logoutUrl("/users/logout")
+                // on logout go to the home page
+                .logoutSuccessUrl("/")
+                // invalidate the session and delete the cookies
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
 
         return http.build();
     }

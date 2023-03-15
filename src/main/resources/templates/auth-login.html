@@ -26,6 +26,7 @@
             <input
                     id="username"
                     name="username"
+                    th:value="${username}"
                     type="text"
                     min="2"
                     max="50"
@@ -45,7 +46,7 @@
 
         </div>
 
-        <p class="invalid-feedback errors text-danger">
+        <p class="errors text-danger" th:if="${bad_credentials}">
             Invalid email or password.
         </p>
 

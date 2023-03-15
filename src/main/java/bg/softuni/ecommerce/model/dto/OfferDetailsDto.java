@@ -20,6 +20,8 @@ public class OfferDetailsDto {
 
     private ItemType clotheType;
 
+    private String imageUrl;
+
     private SizeEnum size;
 
     private BigDecimal price;
