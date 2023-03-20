@@ -2,10 +2,10 @@ package bg.softuni.ecommerce.config;
 
 import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.service.EcommerceUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +15,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfiguration {
+    private UserRepository userRepository;
+
+    @Autowired
+    public SecurityConfiguration(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +47,12 @@ public class SecurityConfiguration {
                 .logoutSuccessUrl("/")
                 // invalidate the session and delete the cookies
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                .and()
+                .rememberMe()
+                .key("uniqueKey")
+                .tokenValiditySeconds(604800)
+                .userDetailsService(userDetailsService());
 
         return http.build();
     }
@@ -52,7 +63,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public UserDetailsService userDetailsService() {
         return new EcommerceUserDetailsService(userRepository);
     }
 
