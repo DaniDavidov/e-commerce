@@ -68,6 +68,7 @@ public class OfferService {
 
     private OfferDetailsDto mapToOfferDetailsDto(OfferEntity offerEntity) {
         return new OfferDetailsDto(
+                offerEntity.getId(),
                 offerEntity.getName(),
                 offerEntity.getItem().getBrand().getName(),
                 offerEntity.getItem().getType(),
