@@ -1,5 +1,6 @@
 package bg.softuni.ecommerce.service;
 
+import bg.softuni.ecommerce.model.dto.UserProfileDto;
 import bg.softuni.ecommerce.model.dto.UserRegisterDto;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.repository.UserRepository;
@@ -35,6 +36,12 @@ public class UserService {
 
     }
 
+    public UserEntity getUserByUsername(String username) {
+        return this.userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("No such user"));
+    }
+
     private UserEntity map(UserRegisterDto userRegisterDto) {
         return new UserEntity(
                 userRegisterDto.getUsername(),
@@ -44,5 +51,15 @@ public class UserService {
                 userRegisterDto.getLastName(),
                 userRegisterDto.getPhoneNumber(),
                 userRegisterDto.getGender());
+    }
+
+    public UserProfileDto getUserProfile(UserEntity user) {
+        return new UserProfileDto(
+                user.getUsername(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhoneNumber(),
+                user.getAddress());
     }
 }

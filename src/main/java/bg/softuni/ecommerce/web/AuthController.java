@@ -1,6 +1,8 @@
 package bg.softuni.ecommerce.web;
 
+import bg.softuni.ecommerce.model.dto.UserProfileDto;
 import bg.softuni.ecommerce.model.dto.UserRegisterDto;
+import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 public class AuthController {
@@ -59,5 +63,14 @@ public class AuthController {
         redirectAttributes.addFlashAttribute("bad_credentials", true);
 
         return "redirect:/users/login";
+    }
+
+    @GetMapping("/users/profile")
+    public String profile(Principal principal, Model model) {
+        UserEntity user = this.userService.getUserByUsername(principal.getName());
+        UserProfileDto userProfileDto = userService.getUserProfile(user);
+
+        model.addAttribute("userProfileDto", userProfileDto);
+        return "profile";
     }
 }
