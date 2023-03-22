@@ -41,7 +41,7 @@ public class OfferService {
         ItemEntity item = this.itemService.createItem(
                 createOfferDto.getClotheType(),
                 createOfferDto.getManufactureYear(),
-                createOfferDto.getImageUrl(),
+                createOfferDto.getImage(),
                 createOfferDto.getBrandId(),
                 createOfferDto.getSize());
 
@@ -52,7 +52,7 @@ public class OfferService {
     public Page<OfferDetailsDto> getAllOffers(Pageable pageable) {
         return offerRepository
                 .findAll(pageable)
-                .map(this::mapToOfferDetailsDto);
+                .map(this::mapToOfferDetails);
     }
 
     private OfferEntity mapToOfferEntity(CreateOfferDto createOfferDto, UserEntity user, ItemEntity item) {
@@ -66,7 +66,15 @@ public class OfferService {
                 LocalDate.now());
     }
 
-    private OfferDetailsDto mapToOfferDetailsDto(OfferEntity offerEntity) {
+    public OfferDetailsDto getOfferById(Long offerId) {
+        OfferEntity offerEntity = this.offerRepository
+                .findById(offerId)
+                .orElseThrow(() -> new RuntimeException("No such offer."));
+
+        return mapToOfferDetails(offerEntity);
+    }
+
+    private OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {
         return new OfferDetailsDto(
                 offerEntity.getId(),
                 offerEntity.getName(),
@@ -76,8 +84,9 @@ public class OfferService {
                 offerEntity.getItem().getSize(),
                 offerEntity.getPrice(),
                 offerEntity.getRating(),
+                offerEntity.getSeller().getId(),
                 offerEntity.getSeller().getUsername(),
-                offerEntity.getSeller().getEmail(),
-                offerEntity.getSeller().getPhoneNumber());
+                offerEntity.getCreatedAt(),
+                offerEntity.getUpdatedAt());
     }
 }

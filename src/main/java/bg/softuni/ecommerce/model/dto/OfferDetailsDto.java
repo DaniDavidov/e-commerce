@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -30,11 +31,13 @@ public class OfferDetailsDto {
 
     private OfferRating offerRating;
 
+    private Long sellerId;
+
     private String sellerUsername;
 
-    private String sellerEmail;
+    private LocalDate createdAt;
 
-    private String sellerPhoneNumber;
+    private LocalDate lastModified;
 
 
 }

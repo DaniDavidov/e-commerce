@@ -20,7 +20,7 @@ public class BrandController {
     public String allBrands(Model model) {
 
         List<BrandDto> brandDtos = this.brandService.allBrands();
-
+        model.addAttribute("brands", brandDtos);
         return "brands";
     }
 }
