@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
+@RequestMapping("/offers")
 public class OfferController {
     private final BrandService brandService;
     private final OfferService offerService;
@@ -33,7 +34,7 @@ public class OfferController {
         model.addAttribute("createOfferDto", new CreateOfferDto());
     }
 
-    @GetMapping("/offers/add")
+    @GetMapping("/add")
     public String addOffer(Model model) {
         List<BrandDto> brands = this.brandService.allBrands();
         model.addAttribute("brands", brands);
@@ -42,7 +43,7 @@ public class OfferController {
     }
 
 
-    @PostMapping("/offers/add")
+    @PostMapping("/add")
     public String addOffer(@Valid CreateOfferDto createOfferDto,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes,
@@ -58,24 +59,31 @@ public class OfferController {
         return "redirect:/";
     }
 
-    @GetMapping("/offers/all")
+    @GetMapping("/all")
     public String allOffers(Model model, @PageableDefault(page = 0, size = 5) Pageable pageable) {
         model.addAttribute("offers", this.offerService.getAllOffers(pageable));
         return "offers";
     }
 
-    @GetMapping("/offers/{offerId}/details")
+    @GetMapping("/{offerId}/details")
     public String getOfferDetails(@PathVariable("offerId") Long offerId, Model model) {
         OfferDetailsDto offerDetailsDto = this.offerService.getOfferById(offerId);
         model.addAttribute("offerDetails", offerDetailsDto);
         return "offer-details";
     }
 
-    @DeleteMapping("/offers/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteOffer(@PathVariable("id") Long id) {
 
         offerService.deleteOfferById(id);
         return "redirect:/offers/all";
     }
 
+    @GetMapping("/brand/{id}")
+    public String getOffersByBrand(@PathVariable("id") Long brandId,
+                                   Model model,
+                                   @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        model.addAttribute("offers", this.offerService.getOffersByBrandId(pageable, brandId));
+        return "offers";
+    }
 }

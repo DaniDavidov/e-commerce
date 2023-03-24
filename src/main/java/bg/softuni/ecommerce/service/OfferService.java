@@ -11,11 +11,13 @@ import bg.softuni.ecommerce.repository.OfferRepository;
 import bg.softuni.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,20 @@ public class OfferService {
         this.offerRepository.deleteById(id);
     }
 
+    public OfferDetailsDto getOfferById(Long offerId) {
+        OfferEntity offerEntity = this.offerRepository
+                .findById(offerId)
+                .orElseThrow(() -> new RuntimeException("No such offer."));
+
+        return mapToOfferDetails(offerEntity);
+    }
+
+    public Page<OfferDetailsDto> getOffersByBrandId(Pageable pageable, Long brandId) {
+        return this.offerRepository.findAllByItemBrandId(brandId, pageable)
+                .map(this::mapToOfferDetails);
+
+    }
+
     private OfferEntity mapToOfferEntity(CreateOfferDto createOfferDto, UserEntity user, ItemEntity item) {
         return new OfferEntity(
                 item,
@@ -68,14 +84,6 @@ public class OfferService {
                 createOfferDto.getPrice(),
                 LocalDate.now(),
                 LocalDate.now());
-    }
-
-    public OfferDetailsDto getOfferById(Long offerId) {
-        OfferEntity offerEntity = this.offerRepository
-                .findById(offerId)
-                .orElseThrow(() -> new RuntimeException("No such offer."));
-
-        return mapToOfferDetails(offerEntity);
     }
 
     private OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {

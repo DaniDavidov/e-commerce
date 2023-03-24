@@ -20,7 +20,7 @@
 
     <div class="container-fluid">
         <h2 class="text-center text-white mt-5" th:if="${offers.hasContent()}">All Offers</h2>
-        <h2 class="text-center text-white mt-5" th:unless="${offers.hasContent()}">No books meeting the criteria</h2>
+        <h2 class="text-center text-white mt-5" th:unless="${offers.hasContent()}">No offers meeting the criteria</h2>
         <div
                 th:each="offer: ${offers.getContent()}"
                 th:object="${offer}"
