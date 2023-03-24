@@ -44,6 +44,9 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles;
 
+    @OneToMany
+    private List<OfferEntity> offers;
+
     public UserEntity(String username,
                       String email,
                       String password,

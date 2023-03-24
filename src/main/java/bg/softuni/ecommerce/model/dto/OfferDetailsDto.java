@@ -19,6 +19,8 @@ public class OfferDetailsDto {
 
     private String name;
 
+    private Long brandId;
+
     private String brandName;
 
     private ItemType clotheType;

@@ -48,6 +48,7 @@ td, th {
 }
 
 .card.offer, .offer-details .list-group-item {
+    color: black;
     background-image: linear-gradient(to bottom right, rgba(220, 220, 220, 0.9), rgba(255, 255, 255, 0.9));
 }
 .card-img-top-wrapper {

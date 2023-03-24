@@ -28,7 +28,7 @@
             </div>
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
-                    <div class="card-text"><span th:text="*{brandName}">• Brand</span></div>
+                    <div class="card-text"><span><a th:href="@{/brands/{id}/products(id=*{brandId})}" th:text="*{brandName}"></a> </span></div>
                     <div class="card-text"><span th:text="*{price}">• Price</span></div>
                     <div class="card-text"><span th:text="*{clotheType}">• Cloth type</span></div>
                     <div class="card-text"><span th:text="*{size.name()}">• Size</span></div>
@@ -38,8 +38,8 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a class="card-link" href="/">Update</a>
-                <a class="card-link" href="/">Delete</a>
+                <a class="card-link" th:href="@{/offers/update/{id}(id = *{id})}">Update</a>
+                <a class="card-link" th:href="@{/offers/delete/{id}(id = *{id})}">Delete</a>
             </div>
         </div>
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">

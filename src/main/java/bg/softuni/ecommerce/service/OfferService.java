@@ -55,6 +55,10 @@ public class OfferService {
                 .map(this::mapToOfferDetails);
     }
 
+    public void deleteOfferById(Long id) {
+        this.offerRepository.deleteById(id);
+    }
+
     private OfferEntity mapToOfferEntity(CreateOfferDto createOfferDto, UserEntity user, ItemEntity item) {
         return new OfferEntity(
                 item,
@@ -78,6 +82,7 @@ public class OfferService {
         return new OfferDetailsDto(
                 offerEntity.getId(),
                 offerEntity.getName(),
+                offerEntity.getItem().getBrand().getId(),
                 offerEntity.getItem().getBrand().getName(),
                 offerEntity.getItem().getType(),
                 offerEntity.getItem().getPicture().getUrl(),
