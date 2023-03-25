@@ -1,8 +1,8 @@
 package bg.softuni.ecommerce.service;
 
-import bg.softuni.ecommerce.model.dto.UserDetailsDto;
-import bg.softuni.ecommerce.model.dto.UserProfileDto;
-import bg.softuni.ecommerce.model.dto.UserRegisterDto;
+import bg.softuni.ecommerce.model.dto.user.UserDetailsDto;
+import bg.softuni.ecommerce.model.dto.user.UserProfileDto;
+import bg.softuni.ecommerce.model.dto.user.UserRegisterDto;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.repository.UserRoleRepository;

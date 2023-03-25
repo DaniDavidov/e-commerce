@@ -1,6 +1,6 @@
 package bg.softuni.ecommerce.web;
 
-import bg.softuni.ecommerce.model.dto.UserDetailsDto;
+import bg.softuni.ecommerce.model.dto.user.UserDetailsDto;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.service.UserService;
 import org.springframework.stereotype.Controller;

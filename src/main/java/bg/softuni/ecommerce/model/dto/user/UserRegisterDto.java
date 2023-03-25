@@ -1,4 +1,4 @@
-package bg.softuni.ecommerce.model.dto;
+package bg.softuni.ecommerce.model.dto.user;
 
 import bg.softuni.ecommerce.model.entity.enums.GenderEnum;
 import bg.softuni.ecommerce.model.validation.FieldMatch;

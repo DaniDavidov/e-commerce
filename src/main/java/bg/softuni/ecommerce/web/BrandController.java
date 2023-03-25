@@ -1,7 +1,7 @@
 package bg.softuni.ecommerce.web;
 
-import bg.softuni.ecommerce.model.dto.BrandDto;
-import bg.softuni.ecommerce.model.dto.CreateBrandDto;
+import bg.softuni.ecommerce.model.dto.brand.BrandDto;
+import bg.softuni.ecommerce.model.dto.brand.CreateBrandDto;
 import bg.softuni.ecommerce.service.BrandService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

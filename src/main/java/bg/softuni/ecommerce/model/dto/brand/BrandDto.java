@@ -1,4 +1,4 @@
-package bg.softuni.ecommerce.model.dto;
+package bg.softuni.ecommerce.model.dto.brand;
 
 import bg.softuni.ecommerce.model.entity.ItemEntity;
 import lombok.AllArgsConstructor;

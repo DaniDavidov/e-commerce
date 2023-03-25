@@ -1,4 +1,4 @@
-package bg.softuni.ecommerce.model.dto;
+package bg.softuni.ecommerce.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

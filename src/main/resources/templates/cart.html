@@ -5,6 +5,37 @@
     <title>Ecommerce</title>
 </head>
 <body>
-
+<div class="container-fluid">
+    <h2 class="text-center text-white mt-5">Cart details</h2>
+    <h2 th:if="${cart.isEmpty()}" class="text-center text-white mt-5">Your cart is empty</h2>
+    <div class="offers row mx-auto d-flex flex-row justify-content-center" th:unless="${cart.isEmpty()}">
+        <div class="offer card col-sm-6 col-md-3  col-lg-4 m-1 p-0">
+            <ul class="offer-details list-group list-group-flush">
+                <li class="list-group-item" th:each="entry : ${cart}">
+                    <div class="card-text">
+                        <th:block th:text="*{entry.value}"></th:block>
+                        x
+                        <a th:href="@{/books/{bookId}/details(bookId=*{entry.key.id})}"
+                           th:text="*{entry.key.title}"></a>
+                        by
+                        <a th:href="@{/authors/{authorId}(authorId=*{entry.key.author.id})}"
+                           th:text="*{entry.key.author.fullName}"></a>
+                    </div>
+                    <form th:action="@{/cart/{id}/remove(id=*{entry.key.id})}" th:method="delete">
+                        <input type="submit" class="btn btn-warning" value="Remove Item">
+                    </form>
+                </li>
+            </ul>
+            <div class="card-body">
+                <form th:action="@{/cart/confirm}" th:method="post">
+                    <input type="submit" class="btn btn-success" value="Confirm Order">
+                </form>
+                <form th:action="@{/cart/removeAll}" th:method="delete">
+                    <input type="submit" class="btn btn-danger" value="Remove All Items">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

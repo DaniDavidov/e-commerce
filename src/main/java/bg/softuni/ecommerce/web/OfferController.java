@@ -1,8 +1,8 @@
 package bg.softuni.ecommerce.web;
 
-import bg.softuni.ecommerce.model.dto.BrandDto;
-import bg.softuni.ecommerce.model.dto.CreateOfferDto;
-import bg.softuni.ecommerce.model.dto.OfferDetailsDto;
+import bg.softuni.ecommerce.model.dto.brand.BrandDto;
+import bg.softuni.ecommerce.model.dto.offer.CreateOfferDto;
+import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.service.BrandService;
 import bg.softuni.ecommerce.service.OfferService;
 import jakarta.validation.Valid;

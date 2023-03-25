@@ -1,7 +1,7 @@
 package bg.softuni.ecommerce.service;
 
-import bg.softuni.ecommerce.model.dto.BrandDto;
-import bg.softuni.ecommerce.model.dto.CreateBrandDto;
+import bg.softuni.ecommerce.model.dto.brand.BrandDto;
+import bg.softuni.ecommerce.model.dto.brand.CreateBrandDto;
 import bg.softuni.ecommerce.model.entity.BrandEntity;
 import bg.softuni.ecommerce.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;

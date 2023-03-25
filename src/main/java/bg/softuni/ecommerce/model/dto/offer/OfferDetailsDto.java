@@ -1,4 +1,4 @@
-package bg.softuni.ecommerce.model.dto;
+package bg.softuni.ecommerce.model.dto.offer;
 
 import bg.softuni.ecommerce.model.entity.enums.ItemType;
 import bg.softuni.ecommerce.model.entity.enums.OfferRating;

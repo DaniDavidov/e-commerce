@@ -1,6 +1,6 @@
-package bg.softuni.ecommerce.model.dto;
+package bg.softuni.ecommerce.model.dto.user;
 
-import lombok.AllArgsConstructor;
+import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
