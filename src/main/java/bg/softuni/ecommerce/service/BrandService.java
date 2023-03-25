@@ -1,6 +1,7 @@
 package bg.softuni.ecommerce.service;
 
 import bg.softuni.ecommerce.model.dto.BrandDto;
+import bg.softuni.ecommerce.model.dto.CreateBrandDto;
 import bg.softuni.ecommerce.model.entity.BrandEntity;
 import bg.softuni.ecommerce.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,19 @@ public class BrandService {
     }
 
     private BrandDto mapToMapDto(BrandEntity brandEntity) {
-        return new BrandDto(brandEntity.getId(), brandEntity.getImageUrl(), brandEntity.getName());
+        return new BrandDto(brandEntity.getId(), brandEntity.getName());
+    }
+
+    public void createBrand(CreateBrandDto createBrandDto) {
+        BrandEntity brandEntity = mapToBrandEntity(createBrandDto);
+
+        this.brandRepository.save(brandEntity);
+    }
+
+    private BrandEntity mapToBrandEntity(CreateBrandDto createBrandDto) {
+        return new BrandEntity(
+                createBrandDto.getName(),
+                createBrandDto.getSlogan(),
+                createBrandDto.getEstimatedAt());
     }
 }

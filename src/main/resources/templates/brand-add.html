@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div th:insert="~{fragments/navbar}"></div>
+
+<div class="container-fluid">
+    <h2 class="text-center text-white">Add brand</h2>
+    <form   th:action="@{/brands/add}"
+            th:method="post"
+            th:object="${createBrandDto}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="name" class="text-white font-weight-bold">Brand name</label>
+                <input
+                        id="name"
+                        name="name"
+                        th:field="*{name}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        min="2"
+                        max="20"
+                        class="form-control"
+                        placeholder="Name"/>
+                <div
+                        th:each="err : ${#fields.errors('name')}"
+                        th:text="${err}"
+                        class="invalid-feedback errors alert alert-danger"
+                ></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="slogan" class="text-white font-weight-bold">Slogan</label>
+                <input
+                        id="slogan"
+                        name="slogan"
+                        th:field="*{slogan}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        min="2"
+                        max="20"
+                        class="form-control"
+                        placeholder="Slogan"/>
+                <div
+                        th:each="err : ${#fields.errors('slogan')}"
+                        th:text="${err}"
+                        class="invalid-feedback errors alert alert-danger"
+                ></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <label for="estimatedAt" class="col-sm-2 col-form-label">Estimated at</label>
+                <input type="date"
+                       class="form-control"
+                       id="estimatedAt"
+                       name="estimatedAt"
+                       th:field="*{estimatedAt}"
+                       th:errorclass="is-invalid"
+                       aria-describedby="createdHelpInline">
+                <small id="createdTimeHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                    Created date cannot be in the future.
+                </small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Submit Offer"/>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
