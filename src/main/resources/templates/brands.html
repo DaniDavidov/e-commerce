@@ -4,7 +4,7 @@
         lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Brands</title>
+    <title>Ecommerce</title>
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
@@ -23,6 +23,7 @@
                 <h5 class="mb-1" th:text="*{name}"></h5>
             </div>
             <p class="mb-1">Offers from <span th:text="*{name}"></span></p>
+            <p class="mb-1">Products count: <span th:text="*{numberOfItems}"></span> </p>
         </a>
     </div>
 </div>

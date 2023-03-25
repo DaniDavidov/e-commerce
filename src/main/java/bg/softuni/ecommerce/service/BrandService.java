@@ -27,7 +27,10 @@ public class BrandService {
     }
 
     private BrandDto mapToMapDto(BrandEntity brandEntity) {
-        return new BrandDto(brandEntity.getId(), brandEntity.getName());
+        return new BrandDto(
+                brandEntity.getId(),
+                brandEntity.getName(),
+                brandEntity.getItems().size());
     }
 
     public void createBrand(CreateBrandDto createBrandDto) {

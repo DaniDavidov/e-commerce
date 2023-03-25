@@ -1,9 +1,6 @@
 package bg.softuni.ecommerce.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +21,7 @@ public class BrandEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "brand", targetEntity = ItemEntity.class)
+    @OneToMany(mappedBy = "brand", targetEntity = ItemEntity.class, fetch = FetchType.EAGER)
     private List<ItemEntity> items;
 
     private String slogan;
