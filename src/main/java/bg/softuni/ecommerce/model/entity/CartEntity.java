@@ -1,6 +1,7 @@
 package bg.softuni.ecommerce.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,9 @@ public class CartEntity extends BaseEntity {
     @OneToOne
     private OfferEntity offer;
 
-    @OneToOne
+    private int quantity;
+
+    @ManyToOne
     private UserEntity buyer;
 
-    private int count;
 }

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html
         xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         lang="en">
 
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.getToken()}"/>
+    <meta name="_csrf_header" th:content="${_csrf.getHeaderName()}"/>
     <title>Ecommerce</title>
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -35,9 +38,25 @@
                     <div class="card-text"><span th:text="*{createdAt}">• Offer created</span></div>
                     <div class="card-text"><span th:text="*{lastModified}">• Offer modified</span></div>
                     <div class="card-text"><span><a th:href="@{/users/{id}/details(id=*{sellerId})}" th:text="*{sellerUsername}"></a> </span></div>
+                    <input type="hidden" id="offerId" th:value="*{id}">
                 </li>
             </ul>
             <div class="card-body">
+                <div sec:authorize="hasRole('USER')" id="addToCartSection">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button" id="minusBtn">-</button>
+                        </div>
+                        <input type="number" id="quantity" class="form-control" placeholder="1" aria-label=""
+                               aria-describedby="basic-addon1" value="1">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
+                        </div>
+                        <form th:action="@{/api/cart}" th:method="post" id="addToCartForm">
+                            <input class="btn btn-success" type="submit" value="Buy">
+                        </form>
+                    </div>
+                </div>
                 <a class="card-link" th:href="@{/offers/update/{id}(id = *{id})}">Update</a>
                 <a class="card-link" th:href="@{/offers/delete/{id}(id = *{id})}">Delete</a>
             </div>
@@ -52,5 +71,6 @@
              <footer> </footer>
 </div>
 
+<script src="/js/offer-details.js"></script>
 </body>
 </html>

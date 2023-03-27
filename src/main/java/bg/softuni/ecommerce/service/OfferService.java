@@ -1,5 +1,6 @@
 package bg.softuni.ecommerce.service;
 
+import bg.softuni.ecommerce.model.dto.cart.OfferAddedToCartDto;
 import bg.softuni.ecommerce.model.dto.offer.CreateOfferDto;
 import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.model.entity.ItemEntity;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -57,12 +59,12 @@ public class OfferService {
         this.offerRepository.deleteById(id);
     }
 
-    public OfferDetailsDto getOfferById(Long offerId) {
+    public OfferEntity getOfferById(Long offerId) {
         OfferEntity offerEntity = this.offerRepository
                 .findById(offerId)
-                .orElseThrow(() -> new RuntimeException("No such offer."));
+                .orElseThrow(() -> new RuntimeException("No such offer"));
 
-        return mapToOfferDetails(offerEntity);
+        return offerEntity;
     }
 
     public Page<OfferDetailsDto> getOffersByBrandId(Pageable pageable, Long brandId) {
@@ -82,7 +84,7 @@ public class OfferService {
                 LocalDate.now());
     }
 
-    private OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {
+    public OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {
         return new OfferDetailsDto(
                 offerEntity.getId(),
                 offerEntity.getName(),
@@ -98,4 +100,5 @@ public class OfferService {
                 offerEntity.getCreatedAt(),
                 offerEntity.getUpdatedAt());
     }
+
 }

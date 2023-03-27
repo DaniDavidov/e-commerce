@@ -3,6 +3,7 @@ package bg.softuni.ecommerce.web;
 import bg.softuni.ecommerce.model.dto.brand.BrandDto;
 import bg.softuni.ecommerce.model.dto.offer.CreateOfferDto;
 import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
+import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.service.BrandService;
 import bg.softuni.ecommerce.service.OfferService;
 import jakarta.validation.Valid;
@@ -67,7 +68,11 @@ public class OfferController {
 
     @GetMapping("/{offerId}/details")
     public String getOfferDetails(@PathVariable("offerId") Long offerId, Model model) {
-        OfferDetailsDto offerDetailsDto = this.offerService.getOfferById(offerId);
+        OfferEntity offerEntity = this.offerService.getOfferById(offerId);
+        if (offerEntity == null) {
+            throw new RuntimeException("No such offer");
+        }
+        OfferDetailsDto offerDetailsDto = this.offerService.mapToOfferDetails(offerEntity);
         model.addAttribute("offerDetails", offerDetailsDto);
         return "offer-details";
     }
