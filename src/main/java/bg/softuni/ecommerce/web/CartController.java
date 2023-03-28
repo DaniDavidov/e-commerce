@@ -33,4 +33,17 @@ public class CartController {
         return "cart";
     }
 
+    @PostMapping("/{id}/remove")
+    public String deleteOfferFromCart(@PathVariable("id") Long cartId,
+                                      @AuthenticationPrincipal UserDetails userDetails) {
+        this.cartService.deleteOfferFromCart(cartId);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/removeAll")
+    public String deleteAllOffersFromCart(@AuthenticationPrincipal UserDetails userDetails) {
+        this.cartService.deleteCart(userDetails);
+        return "redirect:/cart";
+    }
+
 }

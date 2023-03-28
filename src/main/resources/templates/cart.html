@@ -30,7 +30,7 @@
                         <a th:href="@{/users/{id}/details(id=*{sellerId})}"
                            th:text="*{sellerUsername}"></a>
                     </div>
-                    <form th:action="@{/cart/{id}/remove(id=*{cartId})}" th:method="delete">
+                    <form th:action="@{/cart/{id}/remove(id=*{cartId})}" th:method="post">
                         <input type="submit" class="btn btn-warning" value="Remove Item">
                     </form>
                 </li>
@@ -39,7 +39,7 @@
                 <form th:action="@{/cart/confirm}" th:method="post">
                     <input type="submit" class="btn btn-success" value="Confirm Order">
                 </form>
-                <form th:action="@{/cart/removeAll}" th:method="delete">
+                <form th:action="@{/cart/removeAll}" th:method="post">
                     <input type="submit" class="btn btn-danger" value="Remove All Items">
                 </form>
             </div>

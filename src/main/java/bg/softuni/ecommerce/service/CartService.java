@@ -68,4 +68,13 @@ public class CartService {
                 cartEntity.getOffer().getSeller().getUsername(),
                 cartEntity.getOffer().getSeller().getId());
     }
+
+    public void deleteOfferFromCart(Long cartId) {
+        this.cartRepository.deleteById(cartId);
+    }
+
+    public void deleteCart(UserDetails userDetails) {
+        UserEntity user = this.userService.getUserByUsername(userDetails.getUsername());
+        this.cartRepository.deleteAllByBuyerId(user.getId());
+    }
 }
