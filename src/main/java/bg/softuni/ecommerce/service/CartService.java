@@ -37,6 +37,7 @@ public class CartService {
         CartEntity cartEntity = new CartEntity();
         cartEntity.setBuyer(user);
         cartEntity.setOffer(offer);
+        cartEntity.setQuantity(addItemToCartDto.getQuantity());
 
         this.cartRepository.save(cartEntity);
         return true;

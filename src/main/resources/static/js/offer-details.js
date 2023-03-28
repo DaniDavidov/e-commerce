@@ -11,7 +11,7 @@ async function buyBook(event) {
     event.preventDefault();
 
     const requestBody = {
-        bookId: bookIdInputField.value,
+        offerId: bookIdInputField.value,
         quantity: quantityInputField.value
     };
 
@@ -21,7 +21,7 @@ async function buyBook(event) {
         return p;
     }
 
-    fetch('localhost:8050/api/cart', {
+    fetch('http://localhost:8050/api/cart', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
