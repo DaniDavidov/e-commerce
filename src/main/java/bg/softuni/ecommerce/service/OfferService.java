@@ -7,6 +7,7 @@ import bg.softuni.ecommerce.model.entity.ItemEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.model.entity.enums.OfferRating;
+import bg.softuni.ecommerce.model.error.OfferNotFoundException;
 import bg.softuni.ecommerce.repository.OfferRepository;
 import bg.softuni.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class OfferService {
     public OfferEntity getOfferById(Long offerId) {
         OfferEntity offerEntity = this.offerRepository
                 .findById(offerId)
-                .orElseThrow(() -> new RuntimeException("No such offer"));
+                .orElseThrow(() -> new OfferNotFoundException(offerId));
 
         return offerEntity;
     }
