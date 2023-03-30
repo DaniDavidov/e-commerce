@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/", "/users/register", "/users/login", "/offers/all", "/users/login-error").permitAll()
                 .requestMatchers("/brands/add").hasRole("ADMIN")
+                .requestMatchers("/users/blacklist/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -42,7 +43,7 @@ public class SecurityConfiguration {
                 // configure logout
                 .logout()
                 // which is the logout url, must be POST request
-                .logoutUrl("/users/logout")
+                .logoutUrl("/logout")
                 // on logout go to the home page
                 .logoutSuccessUrl("/")
                 // invalidate the session and delete the cookies
