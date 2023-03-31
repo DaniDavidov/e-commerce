@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <h2 class="text-center text-white mt-5">Users</h2>
+    <h2 th:if="${users.isEmpty()}" class="text-center text-white mt-5">No users</h2>
+    <div class="list-group" th:unless="${users.isEmpty()}" th:each="user: ${users}" th:object="${user}">
+        <a th:href="@{/users/{id}/details(id=*{id})}" class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:text="*{username}"></h5>
+            </div>
+            <p class="mb-1">Roles: <span th:text="*{roles}"></span></p>
+        </a>
+    </div>
+</div>
+
+<div th:if="${users.hasContent()}" class="container-fluid container-fluid row justify-content-center">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${users.isFirst()} ? 'disabled' : ''">
+                <a th:unless="${users.isFirst()}"
+                   th:href="@{/users/all(size=${users.getSize()},page=0)}"
+                   class="page-link" href="#">First</a>
+                <a th:if="${users.isFirst()}"
+                   class="page-link" href="#">First</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${users.hasPrevious() ? '' : 'disabled'}">
+                <a th:if="${users.hasPrevious()}"
+                   th:href="@{/users/all(size=${users.getSize()},page=${users.getNumber() - 1})}"
+                   class="page-link" href="#">Previous</a>
+                <a th:unless="${users.hasPrevious()}"
+                   class="page-link" href="#">Previous</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${users.hasNext() ? '' : 'disabled'}">
+                <a th:if="${users.hasNext()}"
+                   th:href="@{/users/all(size=${users.getSize()},page=${users.getNumber() + 1})}"
+                   class="page-link" href="#">Next</a>
+                <a th:unless="${users.hasNext()}"
+                   class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${users.isLast()} ? 'disabled' : ''">
+                <a th:unless="${users.isLast()}"
+                   th:href="@{/users/all(size=${users.getSize()},page=${users.getTotalPages() - 1})}"
+                   class="page-link" href="#">Last</a>
+                <a th:if="${users.isLast()}"
+                   class="page-link" href="#">Last</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

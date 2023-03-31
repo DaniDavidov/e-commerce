@@ -6,13 +6,6 @@ body{
     background-size: cover;
     background-color: #282828;
 }
- form{
-    max-width: 300px;
-    width: 100%;
-    padding: 0;
-    border-radius: 25px;
-    background: gray;
-}
 
 /*.navbar .logo {*/
 /*    max-height: 50px;*/

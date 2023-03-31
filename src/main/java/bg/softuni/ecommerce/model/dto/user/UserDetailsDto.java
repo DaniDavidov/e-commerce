@@ -25,19 +25,20 @@ public class UserDetailsDto {
 
     private String phoneNumber;
 
-    private List<OfferDetailsDto> offers;
+    private String roles;
+
 
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
 
-    public UserDetailsDto(Long id, String username, String email, String firstName, String lastName, String phoneNumber) {
+    public UserDetailsDto(Long id, String username, String email, String firstName, String lastName, String phoneNumber, List<String> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.offers = new ArrayList<>();
+        this.roles = String.join(", ", roles);
     }
 }

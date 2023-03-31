@@ -39,6 +39,16 @@
                             <button class="btn btn-outline-primary px-4">Back</button>
                             <!--                            <button class="btn btn-primary px-4 ms-3">Contact</button>-->
                         </div>
+
+                        <h5 class="mt-2 mb-0">Current role</h5>
+                        <span th:text="*{roles}"></span>
+
+                        <form sec:authorize="hasRole('ADMIN')" th:if="*{roles.contains('MODERATOR')}" th:action="@{/users/toUser/{id}(id=*{id})}" th:method="post">
+                            <input class="btn btn-danger" type="submit" value="Demote to moderator">
+                        </form>
+                        <form sec:authorize="hasRole('ADMIN')" th:unless="*{roles.contains('MODERATOR')}" th:action="@{/users/toModerator/{id}(id=*{id})}" th:method="post">
+                            <input class="btn btn-danger" type="submit" value="Promote to moderator">
+                        </form>
                         <form th:if="${isBlacklisted}" sec:authorize="hasRole('ADMIN')" th:action="@{/users/blacklist/remove/{id}(id = *{id})}" th:method="post">
                             <input class="btn btn-danger" type="submit" value="Remove from blacklist">
                         </form>

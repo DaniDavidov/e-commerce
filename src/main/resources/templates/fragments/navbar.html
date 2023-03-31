@@ -51,7 +51,7 @@
           <div class="form-inline my-2 my-lg-0 px-3">
             <div class="text-white">Welcome, <span sec:authentication="name"></span>!</div>
             <form th:action="@{/logout}" th:method="post">
-              <input class="btn btn-link nav-link p-0 m-0" type="submit" value="Logout">
+              <input class="btn btn-link nav-link" type="submit" value="Logout">
             </form>
           </div>
         </li>
