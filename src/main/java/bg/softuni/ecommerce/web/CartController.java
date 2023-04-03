@@ -1,9 +1,9 @@
 package bg.softuni.ecommerce.web;
 
 import bg.softuni.ecommerce.model.dto.cart.CartDto;
-import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.service.CartService;
 import bg.softuni.ecommerce.service.OfferService;
+import bg.softuni.ecommerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +19,13 @@ public class CartController {
 
     private final CartService cartService;
     private final OfferService offerService;
+    private final OrderService orderService;
 
     @Autowired
-    public CartController(CartService cartService, OfferService offerService) {
+    public CartController(CartService cartService, OfferService offerService, OrderService orderService) {
         this.cartService = cartService;
         this.offerService = offerService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -42,6 +44,13 @@ public class CartController {
 
     @PostMapping("/removeAll")
     public String deleteAllOffersFromCart(@AuthenticationPrincipal UserDetails userDetails) {
+        this.cartService.deleteCart(userDetails);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/confirm")
+    public String confirmOrders(@AuthenticationPrincipal UserDetails userDetails) {
+        this.orderService.createOrder(userDetails);
         this.cartService.deleteCart(userDetails);
         return "redirect:/cart";
     }

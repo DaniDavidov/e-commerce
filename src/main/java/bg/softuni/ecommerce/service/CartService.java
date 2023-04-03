@@ -77,4 +77,8 @@ public class CartService {
         UserEntity user = this.userService.getUserByUsername(userDetails.getUsername());
         this.cartRepository.deleteAllByBuyerId(user.getId());
     }
+
+    public List<CartEntity> getCartByBuyerId(Long buyerId) {
+        return this.cartRepository.findAllByBuyerId(buyerId);
+    }
 }

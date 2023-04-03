@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ecommerce</title>
+  <link rel="stylesheet" href="/css/reset-css.css"/>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+  <script src="/js/jquery-3.5.1.slim.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/navbar">Navbar</div>
+
+
+<div class="container-fluid">
+  <div class="list-group" th:each="order: ${orders}" th:object="${order}">
+    <a th:href="@{/orders/{id}/details(id = *{id})}" class="list-group-item list-group-item-action" aria-current="true">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Order number: <span th:text="*{id}"></span> </h5>
+      </div>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

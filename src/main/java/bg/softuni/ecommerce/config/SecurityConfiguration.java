@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/users/all", "/users/toUser/**", "/users/toModerator/**").hasRole("ADMIN")
                 .requestMatchers("/brands/add").hasRole("ADMIN")
                 .requestMatchers("/users/blacklist/**").hasRole("ADMIN")
+                .requestMatchers("/offers/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
