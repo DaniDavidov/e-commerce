@@ -17,9 +17,9 @@ import java.util.Objects;
 @Service
 public class ItemService {
 
-    private ItemRepository itemRepository;
-    private BrandRepository brandRepository;
-    private PictureRepository pictureRepository;
+    private final ItemRepository itemRepository;
+    private final BrandRepository brandRepository;
+    private final PictureRepository pictureRepository;
 
     @Autowired
     public ItemService(ItemRepository itemRepository, BrandRepository brandRepository, PictureRepository pictureRepository) {
@@ -32,6 +32,7 @@ public class ItemService {
         BrandEntity brandEntity = this.brandRepository.findById(brandId).orElse(null);
         Objects.requireNonNull(brandEntity);
         PictureEntity picture = new PictureEntity(imageUrl);
+        this.pictureRepository.save(picture);
 
         ItemEntity itemEntity = new ItemEntity(type, manufactureYear, picture, brandEntity, size);
         this.itemRepository.save(itemEntity);

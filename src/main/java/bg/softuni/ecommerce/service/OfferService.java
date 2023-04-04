@@ -1,14 +1,15 @@
 package bg.softuni.ecommerce.service;
 
-import bg.softuni.ecommerce.model.dto.cart.OfferAddedToCartDto;
 import bg.softuni.ecommerce.model.dto.offer.CreateOfferDto;
 import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.model.entity.ItemEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
+import bg.softuni.ecommerce.model.entity.PictureEntity;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.model.entity.enums.OfferRating;
 import bg.softuni.ecommerce.model.error.OfferNotFoundException;
 import bg.softuni.ecommerce.repository.OfferRepository;
+import bg.softuni.ecommerce.repository.PictureRepository;
 import bg.softuni.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,32 +18,38 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Service
 public class OfferService {
     private final OfferRepository offerRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ItemService itemService;
+    private final ImageCloudService imageCloudService;
+    private final PictureRepository pictureRepository;
     private static final OfferRating DEFAULT_OFFER_RATING = OfferRating.ZERO;
 
     @Autowired
     public OfferService(OfferRepository offerRepository,
-                        UserRepository userRepository,
-                        ItemService itemService) {
+                        UserService userService,
+                        ItemService itemService,
+                        ImageCloudService imageCloudService,
+                        PictureRepository pictureRepository) {
         this.offerRepository = offerRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.itemService = itemService;
+        this.imageCloudService = imageCloudService;
+        this.pictureRepository = pictureRepository;
     }
 
     public void createOffer(CreateOfferDto createOfferDto, UserDetails userDetails) {
-        UserEntity userEntity = this.userRepository.findByUsername(userDetails.getUsername()).orElse(null);
-        Objects.requireNonNull(userDetails);
+        UserEntity userEntity = this.userService.getUserByUsername(userDetails.getUsername());
+        String imageUrl = this.imageCloudService.saveImage(createOfferDto.getPicture());
+
         ItemEntity item = this.itemService.createItem(
                 createOfferDto.getClotheType(),
                 createOfferDto.getManufactureYear(),
-                createOfferDto.getImage(),
+                imageUrl,
                 createOfferDto.getBrandId(),
                 createOfferDto.getSize());
 

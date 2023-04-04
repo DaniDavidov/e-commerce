@@ -23,6 +23,7 @@
     <form   th:action="@{/offers/add}"
             th:method="post"
             th:object="${createOfferDto}"
+            enctype="multipart/form-data"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
@@ -144,14 +145,16 @@
             <label for="picture" class="text-white font-weight-bold">Picture</label>
             <input
                     id="picture"
+                    name="picture"
                     th:field="*{picture}"
                     th:errorclass="is-invalid"
                     type="file"
+                    accept="image/jpeg"
                     class="form-control"
                     placeholder="Picture"/>
-            <p class="invalid-feedback errors alert alert-danger">
-                Picture is required.
-            </p>
+<!--            <p class="invalid-feedback errors alert alert-danger">-->
+<!--                Picture is required.-->
+<!--            </p>-->
         </div>
 
         <div class="row">
