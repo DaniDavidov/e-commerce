@@ -16,7 +16,7 @@ public class UserNotFoundAdvice {
         ModelAndView modelAndView = new ModelAndView("object-not-found");
 
         modelAndView.addObject("title", "User not found.");
-        modelAndView.addObject("message", String.format("A user with id: %d has not been found.", ex.getId()));
+        modelAndView.addObject("message", "The user has not been found.");
 
         return modelAndView;
     }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,13 +49,15 @@ public class UserService {
     }
 
     public UserEntity getUserByUsername(String username) {
-        return this.userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("No such user"));
+        Optional<UserEntity> userOpt = this.userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        return userOpt.get();
     }
 
     public UserEntity getUserById(Long id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public Page<UserDetailsDto> getAllUsers(Pageable pageable) {

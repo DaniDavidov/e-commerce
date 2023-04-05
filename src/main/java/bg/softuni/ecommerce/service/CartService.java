@@ -8,6 +8,7 @@ import bg.softuni.ecommerce.model.entity.CartEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,7 @@ public class CartService {
         this.cartRepository.deleteAllByBuyerId(user.getId());
     }
 
+    @Transactional
     public List<CartEntity> getCartByBuyerId(Long buyerId) {
         return this.cartRepository.findAllByBuyerId(buyerId);
     }

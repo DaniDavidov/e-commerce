@@ -40,10 +40,7 @@ public class OrderController {
 
     @GetMapping("/{id}/details")
     public String getOrderDetails(@PathVariable("id") Long orderId, Model model) {
-        OrderEntity order = this.orderService.getOrderById(orderId);
-        OrderDto orderDto = orderService.mapToOrderDto(order);
-
-        model.addAttribute("order", orderDto);
+        model.addAttribute("order", orderService.getOrderById(orderId));
         model.addAttribute("items", orderService.getOrderItems(orderId));
         return "order-details";
     }

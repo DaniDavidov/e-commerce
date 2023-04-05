@@ -43,10 +43,10 @@ public class UserEntity extends BaseEntity {
 
     private String address;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> userRoles;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<OfferEntity> offers;
 
     public UserEntity(String username,

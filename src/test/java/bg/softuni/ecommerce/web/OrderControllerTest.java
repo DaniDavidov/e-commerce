@@ -87,10 +87,27 @@ class OrderControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+    @Test
+    void testOrderDetailsPageWithAdminUserSuccess() throws Exception {
+        mockMvc.perform(get("/orders/{id}/details", testOrder.getId()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order-details"))
+                .andExpect(model().attributeExists("order", "items"));
+    }
+
     @WithMockUser(authorities = "ROLE_USER")
     @Test
     void testConfirmOrderWithRegularUserIsForbidden() throws Exception {
         mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()))
                 .andExpect(status().isForbidden());
+    }
+
+    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "testUserDataService")
+    @Test
+    void testConfirmOrderWithAdminUserSuccess() throws Exception {
+        mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/orders"));
     }
 }

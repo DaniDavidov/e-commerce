@@ -13,11 +13,14 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     #For MySQL 5
     #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
     properties:
       hibernate:
+        enable_lazy_load_no_trans: true
         format_sql: true
     defer-datasource-initialization: true
   main:

@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class OrderService {
@@ -60,8 +63,14 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public OrderEntity getOrderById(Long orderId) {
-        return this.orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No such order."));
+        Optional<OrderEntity> orderOpt = orderRepository.findById(orderId);
+        if (orderOpt.isEmpty()) {
+            throw new RuntimeException("No such offer");
+        }
+
+        return orderOpt.get();
     }
 
     @Transactional

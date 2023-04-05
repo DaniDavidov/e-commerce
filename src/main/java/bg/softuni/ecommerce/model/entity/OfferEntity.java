@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Table(name = "offers")
 public class OfferEntity extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private ItemEntity item;
 
     @Column(nullable = false)

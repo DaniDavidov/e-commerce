@@ -21,7 +21,7 @@
   <div class="offers row mx-auto d-flex flex-row justify-content-center">
     <div class="offer card col-sm-6 col-md-3  col-lg-4 m-1 p-0">
       <p sec:authorize="hasRole('ADMIN')" th:object="${order}" class="text-center text-black mt-2">Customer:
-        <th:block th:text="*{buyerUsername}"></th:block>
+        <th:block th:text="*{owner.username}"></th:block>
       </p>
       <p th:object="${order}" class="text-center text-black mt-2">Status:
         <th:block th:if="*{isProcessed}"> processed</th:block>
