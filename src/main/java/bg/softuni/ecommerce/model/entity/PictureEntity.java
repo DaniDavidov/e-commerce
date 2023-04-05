@@ -15,7 +15,7 @@ import lombok.Setter;
 public class PictureEntity extends BaseEntity {
 
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String url;
 
 

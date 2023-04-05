@@ -53,6 +53,13 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderDto> getAllProcessedOrders() {
+        return this.orderRepository.findAllProcessed()
+                .stream()
+                .map(this::mapToOrderDto)
+                .collect(Collectors.toList());
+    }
+
     public OrderEntity getOrderById(Long orderId) {
         return this.orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No such order."));
     }

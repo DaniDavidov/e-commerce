@@ -25,9 +25,16 @@ public class OrderController {
     }
 
     @GetMapping
-    public String getOrders(Model model) {
-        List<OrderDto> allOrders = this.orderService.getAllUnprocessedOrders();
-        model.addAttribute("orders", allOrders);
+    public String getUnprocessedOrders(Model model) {
+        List<OrderDto> allProcessedOrders = this.orderService.getAllProcessedOrders();
+        model.addAttribute("orders", allProcessedOrders);
+        return "orders";
+    }
+
+    @GetMapping("/unprocessed")
+    public String getProcessedOrders(Model model) {
+        List<OrderDto> allUnprocessedOrders = this.orderService.getAllUnprocessedOrders();
+        model.addAttribute("orders", allUnprocessedOrders);
         return "orders";
     }
 

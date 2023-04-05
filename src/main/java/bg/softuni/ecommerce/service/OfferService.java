@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -42,9 +43,15 @@ public class OfferService {
         this.pictureRepository = pictureRepository;
     }
 
-    public void createOffer(CreateOfferDto createOfferDto, UserDetails userDetails) {
+    public Long createOffer(CreateOfferDto createOfferDto, UserDetails userDetails) {
         UserEntity userEntity = this.userService.getUserByUsername(userDetails.getUsername());
-        String imageUrl = this.imageCloudService.saveImage(createOfferDto.getPicture());
+        MultipartFile picture = createOfferDto.getPicture();
+        String imageUrl = "";
+        if (picture == null) {
+            imageUrl = "n/a";
+        } else {
+            imageUrl = this.imageCloudService.saveImage(createOfferDto.getPicture());
+        }
 
         ItemEntity item = this.itemService.createItem(
                 createOfferDto.getClotheType(),
@@ -54,7 +61,7 @@ public class OfferService {
                 createOfferDto.getSize());
 
         OfferEntity offerEntity = mapToOfferEntity(createOfferDto, userEntity, item);
-        this.offerRepository.save(offerEntity);
+        return this.offerRepository.save(offerEntity).getId();
     }
 
     public Page<OfferDetailsDto> getAllOffers(Pageable pageable) {

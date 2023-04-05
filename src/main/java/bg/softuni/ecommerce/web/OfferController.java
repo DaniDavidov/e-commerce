@@ -56,8 +56,8 @@ public class OfferController {
             return "redirect:/offers/add";
         }
 
-        this.offerService.createOffer(createOfferDto, userDetails);
-        return "redirect:/";
+        Long offerId = this.offerService.createOffer(createOfferDto, userDetails);
+        return String.format("redirect:/offers/%d/details", offerId);
     }
 
     @GetMapping("/all")
