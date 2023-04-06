@@ -43,7 +43,7 @@ public class OfferService {
         this.pictureRepository = pictureRepository;
     }
 
-    public Long createOffer(CreateOfferDto createOfferDto, UserDetails userDetails) {
+    public void createOffer(CreateOfferDto createOfferDto, UserDetails userDetails) {
         UserEntity userEntity = this.userService.getUserByUsername(userDetails.getUsername());
         MultipartFile picture = createOfferDto.getPicture();
         String imageUrl = "";
@@ -61,7 +61,7 @@ public class OfferService {
                 createOfferDto.getSize());
 
         OfferEntity offerEntity = mapToOfferEntity(createOfferDto, userEntity, item);
-        return this.offerRepository.save(offerEntity).getId();
+        this.offerRepository.save(offerEntity);
     }
 
     public Page<OfferDetailsDto> getAllOffers(Pageable pageable) {

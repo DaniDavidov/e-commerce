@@ -22,11 +22,11 @@ public class BrandService {
     public List<BrandDto> allBrands() {
         return this.brandRepository.findAll()
                 .stream()
-                .map(this::mapToMapDto)
+                .map(this::mapToBrandDto)
                 .collect(Collectors.toList());
     }
 
-    private BrandDto mapToMapDto(BrandEntity brandEntity) {
+    private BrandDto mapToBrandDto(BrandEntity brandEntity) {
         return new BrandDto(
                 brandEntity.getId(),
                 brandEntity.getName(),

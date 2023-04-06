@@ -12,6 +12,7 @@ import bg.softuni.ecommerce.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
-    private UserDetailsService userDetailsService;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
-                       PasswordEncoder passwordEncoder,
-                       UserDetailsService userDetailsService) {
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
     }
 
     public void register(UserRegisterDto userRegisterDto) {
@@ -99,19 +97,19 @@ public class UserService {
                 user.getAddress());
     }
 
-    public void promoteToModerator(Long userId) {
+    public UserEntity promoteToModerator(Long userId) {
         UserRoleEntity roleEntity = this.userRoleRepository.findByName(UserRoleEnum.valueOf("MODERATOR"));
 
         UserEntity user = getUserById(userId);
         user.setUserRoles(new HashSet<>(List.of(roleEntity)));
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
-    public void demoteToUser(Long userId) {
+    public UserEntity demoteToUser(Long userId) {
         UserRoleEntity roleEntity = this.userRoleRepository.findByName(UserRoleEnum.valueOf("USER"));
 
         UserEntity user = getUserById(userId);
         user.setUserRoles(new HashSet<>(List.of(roleEntity)));
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 }
