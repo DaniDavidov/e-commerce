@@ -1,7 +1,6 @@
 package bg.softuni.ecommerce.web;
 
-import bg.softuni.ecommerce.model.entity.OrderEntity;
-import bg.softuni.ecommerce.model.entity.UserEntity;
+import bg.softuni.ecommerce.model.entity.*;
 import bg.softuni.ecommerce.util.TestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -34,12 +36,25 @@ class OrderControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.testOrder = testDataUtils.createTestOrder();
+        UserEntity owner = this.testDataUtils.createTestUser("owner", "owner@example.com");
+        BrandEntity testBrand = this.testDataUtils.createTestBrand();
+        PictureEntity testPicture = this.testDataUtils.createTestPicture();
+        UserEntity publisher = this.testDataUtils.createTestUser("publisher", "publisher@example.com");
+
+        ItemEntity testItem = this.testDataUtils.createTestItem(testBrand, testPicture);
+        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testItem);
+        this.testOrder = new OrderEntity(owner, Map.of(testOffer, 3));
+        this.testDataUtils.getOrderRepository().save(testOrder);
     }
 
     @AfterEach
     void tearDown() {
-        testDataUtils.cleanUpDatabase();
+        testDataUtils.getOrderRepository().deleteAll();
+        testDataUtils.getOfferRepository().deleteAll();
+        testDataUtils.getItemRepository().deleteAll();
+        testDataUtils.getUserRepository().deleteAll();
+        testDataUtils.getBrandRepository().deleteAll();
+        testDataUtils.getPictureRepository().deleteAll();
     }
 
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
@@ -57,7 +72,7 @@ class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
     void testGetOrdersRegularUser_Forbidden() throws Exception {
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isForbidden());

@@ -104,13 +104,12 @@ public class TestDataUtils {
 
     public void cleanUpDatabase() {
         orderRepository.deleteAll();
+        userRoleRepository.deleteAll();
         offerRepository.deleteAll();
+        userRepository.deleteAll();
         brandRepository.deleteAll();
         itemRepository.deleteAll();
         blacklistRepository.deleteAll();
-        userRepository.deleteAll();
-        userRoleRepository.deleteAll();
-        cartRepository.deleteAll();
     }
 
     public PictureEntity createTestPicture() {
@@ -162,5 +161,9 @@ public class TestDataUtils {
 
     public PictureRepository getPictureRepository() {
         return pictureRepository;
+    }
+
+    public CartRepository getCartRepository() {
+        return cartRepository;
     }
 }

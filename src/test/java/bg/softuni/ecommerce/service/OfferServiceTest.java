@@ -60,8 +60,6 @@ class OfferServiceTest {
     @Captor
     private ArgumentCaptor<OfferEntity> offerEntityArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<BrandEntity> brandEntityArgumentCaptor;
 
     @Captor
     private ArgumentCaptor<ItemEntity> itemEntityArgumentCaptor;

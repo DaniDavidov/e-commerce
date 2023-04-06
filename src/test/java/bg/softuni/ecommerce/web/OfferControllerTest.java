@@ -1,8 +1,11 @@
 package bg.softuni.ecommerce.web;
 
-import bg.softuni.ecommerce.model.entity.OfferEntity;
+import bg.softuni.ecommerce.model.entity.*;
 import bg.softuni.ecommerce.model.entity.enums.ItemType;
 import bg.softuni.ecommerce.model.entity.enums.SizeEnum;
+import bg.softuni.ecommerce.repository.BrandRepository;
+import bg.softuni.ecommerce.repository.OfferRepository;
+import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.util.TestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,17 +34,39 @@ class OfferControllerTest {
 
     private OfferEntity testOffer;
 
+    @Autowired
+    private BrandRepository testBrandRepository;
+
+    @Autowired
+    private UserRepository testUserRepository;
+
+    @Autowired
+    private OfferRepository testOfferRepository;
+
+
 
     @BeforeEach
     void setUp() {
-        testOffer = testDataUtils.createTestOffer(testDataUtils.createTestUser("userr", "userr@example.com"),
-                testDataUtils.createTestItem(testDataUtils.createTestBrand(), testDataUtils.createTestPicture()));
+        BrandEntity testBrand = testDataUtils.createTestBrand();
+
+        UserEntity seller = testDataUtils.createTestUser("seller", "seller@example.com");
+
+        PictureEntity testPicture = testDataUtils.createTestPicture();
+
+        ItemEntity testItem = testDataUtils.createTestItem(testBrand, testPicture);
+        this.testOffer = testDataUtils.createTestOffer(seller, testItem);
+
+//        testOffer = testDataUtils.createTestOffer(testDataUtils.createTestUser("seller", "seller@example.com"),
+//                testDataUtils.createTestItem(testDataUtils.createTestBrand(), testDataUtils.createTestPicture()));
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        testDataUtils.cleanUpDatabase();
-//    }
+    @AfterEach
+    void tearDown() {
+        testDataUtils.getOfferRepository().deleteAll();
+        testDataUtils.getItemRepository().deleteAll();
+        testDataUtils.getBrandRepository().deleteAll();
+        testDataUtils.getUserRepository().deleteAll();
+    }
 
     @Test
     void testAllOffersPageShown() throws Exception {
@@ -65,7 +90,7 @@ class OfferControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
-    @WithUserDetails(value = "user", userDetailsServiceBeanName = "testUserDataService")
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
     @Test
     void testAddOfferPageWithAuthenticatedUserShown() throws Exception {
         mockMvc.perform(get("/offers/add"))
@@ -76,7 +101,7 @@ class OfferControllerTest {
     }
 
 
-    @WithUserDetails(value = "user", userDetailsServiceBeanName = "testUserDataService")
+    @WithUserDetails(value = "seller", userDetailsServiceBeanName = "testUserDataService")
     @Test
     void testAddOfferPageWithAuthenticatedUserSuccess() throws Exception {
         mockMvc.perform(post("/offers/add")
@@ -89,10 +114,10 @@ class OfferControllerTest {
                 .param("description", "wefhiuhwiu")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(String.format("redirect:/offers/%d/details", testDataUtils.getLastAddedOfferId())));
+                .andExpect(view().name("redirect:/offers/all"));
     }
 
-    @WithUserDetails(value = "user", userDetailsServiceBeanName = "testUserDataService")
+    @WithMockUser(username = "user", authorities = "ROLE_USER")
     @Test
     void testAddOfferPageWithInvalidInputRedirects() throws Exception {
         mockMvc.perform(post("/offers/add")

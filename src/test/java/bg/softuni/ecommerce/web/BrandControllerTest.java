@@ -60,6 +60,14 @@ class BrandControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+    @Test
+    void testGetAddBrandPageWithAdminUserSuccess() throws Exception {
+        mockMvc.perform(get("/brands/add"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("brand-add"));
+    }
+
 
     @WithMockUser(username = "user", authorities = "ROLE_USER")
     @Test
