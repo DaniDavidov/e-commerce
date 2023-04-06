@@ -15,15 +15,15 @@ public class TestUserDataService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (username.equals("user")) {
+        if (username.equals("admin")) {
             return new User(username,
                     "12345",
-                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                    List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
 
         }
 
         return new User(username,
                 "12345",
-                List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

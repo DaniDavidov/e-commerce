@@ -22,13 +22,18 @@ public class TestDataUtils {
     private final OrderRepository orderRepository;
     private final PictureRepository pictureRepository;
     private final BlacklistRepository blacklistRepository;
+    private final CartRepository cartRepository;
 
     @Autowired
     public TestDataUtils(UserRepository userRepository,
                          UserRoleRepository userRoleRepository,
                          BrandRepository brandRepository,
-                         ItemRepository itemRepository, OfferRepository offerRepository,
-                         OrderRepository orderRepository, PictureRepository pictureRepository, BlacklistRepository blacklistRepository) {
+                         ItemRepository itemRepository,
+                         OfferRepository offerRepository,
+                         OrderRepository orderRepository,
+                         PictureRepository pictureRepository,
+                         BlacklistRepository blacklistRepository,
+                         CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.brandRepository = brandRepository;
@@ -37,6 +42,7 @@ public class TestDataUtils {
         this.orderRepository = orderRepository;
         this.pictureRepository = pictureRepository;
         this.blacklistRepository = blacklistRepository;
+        this.cartRepository = cartRepository;
     }
 
     public void initRoles() {
@@ -81,6 +87,11 @@ public class TestDataUtils {
         return this.itemRepository.save(item);
     }
 
+    public CartEntity createTestCart() {
+        CartEntity cart = new CartEntity(createTestOffer(createTestUser("publisher", "publisher@examle.com"), createTestItem(createTestBrand(), createTestPicture())), 2, createTestUser("buyer", "buyer@example.com"));
+        return this.cartRepository.save(cart);
+    }
+
     public OfferEntity createTestOffer(UserEntity publisher, ItemEntity item) {
         OfferEntity offer = new OfferEntity(item, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now());
         return this.offerRepository.save(offer);
@@ -99,6 +110,7 @@ public class TestDataUtils {
         blacklistRepository.deleteAll();
         userRepository.deleteAll();
         userRoleRepository.deleteAll();
+        cartRepository.deleteAll();
     }
 
     public PictureEntity createTestPicture() {

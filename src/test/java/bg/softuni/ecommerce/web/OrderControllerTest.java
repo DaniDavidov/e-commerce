@@ -37,10 +37,10 @@ class OrderControllerTest {
         this.testOrder = testDataUtils.createTestOrder();
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        testDataUtils.cleanUpDatabase();
-//    }
+    @AfterEach
+    void tearDown() {
+        testDataUtils.cleanUpDatabase();
+    }
 
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     @Test
@@ -99,14 +99,14 @@ class OrderControllerTest {
     @WithMockUser(authorities = "ROLE_USER")
     @Test
     void testConfirmOrderWithRegularUserIsForbidden() throws Exception {
-        mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()))
+        mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()).with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
     @WithUserDetails(value = "admin", userDetailsServiceBeanName = "testUserDataService")
     @Test
     void testConfirmOrderWithAdminUserSuccess() throws Exception {
-        mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()))
+        mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()).with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/orders"));
     }
