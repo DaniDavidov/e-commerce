@@ -3,6 +3,7 @@ package bg.softuni.ecommerce.util;
 import bg.softuni.ecommerce.model.entity.*;
 import bg.softuni.ecommerce.model.entity.enums.*;
 import bg.softuni.ecommerce.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -20,12 +21,14 @@ public class TestDataUtils {
     private final OfferRepository offerRepository;
     private final OrderRepository orderRepository;
     private final PictureRepository pictureRepository;
+    private final BlacklistRepository blacklistRepository;
 
+    @Autowired
     public TestDataUtils(UserRepository userRepository,
                          UserRoleRepository userRoleRepository,
                          BrandRepository brandRepository,
                          ItemRepository itemRepository, OfferRepository offerRepository,
-                         OrderRepository orderRepository, PictureRepository pictureRepository) {
+                         OrderRepository orderRepository, PictureRepository pictureRepository, BlacklistRepository blacklistRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.brandRepository = brandRepository;
@@ -33,6 +36,7 @@ public class TestDataUtils {
         this.offerRepository = offerRepository;
         this.orderRepository = orderRepository;
         this.pictureRepository = pictureRepository;
+        this.blacklistRepository = blacklistRepository;
     }
 
     public void initRoles() {
@@ -92,9 +96,9 @@ public class TestDataUtils {
         offerRepository.deleteAll();
         brandRepository.deleteAll();
         itemRepository.deleteAll();
+        blacklistRepository.deleteAll();
         userRepository.deleteAll();
         userRoleRepository.deleteAll();
-
     }
 
     public PictureEntity createTestPicture() {
@@ -117,5 +121,34 @@ public class TestDataUtils {
         ItemEntity testItem = createTestItem(testBrand, testPicture);
         items.put(createTestOffer(publisher, testItem), 3);
         return items;
+    }
+
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public UserRoleRepository getUserRoleRepository() {
+        return userRoleRepository;
+    }
+
+    public BrandRepository getBrandRepository() {
+        return brandRepository;
+    }
+
+    public ItemRepository getItemRepository() {
+        return itemRepository;
+    }
+
+    public OfferRepository getOfferRepository() {
+        return offerRepository;
+    }
+
+    public OrderRepository getOrderRepository() {
+        return orderRepository;
+    }
+
+    public PictureRepository getPictureRepository() {
+        return pictureRepository;
     }
 }

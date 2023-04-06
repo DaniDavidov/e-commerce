@@ -28,9 +28,8 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/users/register", "/users/login", "/offers/all", "/offers/{offerId}/details", "/users/login-error").permitAll()
-                .requestMatchers("/users/all", "/users/toUser/**", "/users/toModerator/**").hasRole("ADMIN")
-                .requestMatchers("/brands/add").hasRole("ADMIN")
+                .requestMatchers("/", "/users/register", "/users/login", "/offers/all", "/offers/{offerId}/details", "/users/login-error", "/brands/all").permitAll()
+                .requestMatchers("/users/all", "/users/toUser/**", "/users/toModerator/**", "/brands/add").hasRole("ADMIN")
                 .requestMatchers("/users/blacklist/**").hasRole("ADMIN")
                 .requestMatchers("/orders", "/orders/unprocessed", "/orders/{id}/details", "/orders/{id}/confirm").hasRole("ADMIN")
                 .anyRequest().authenticated()

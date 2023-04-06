@@ -27,6 +27,5 @@ public class CreateBrandDto {
     private String slogan;
 
     @PastOrPresent
-    @NotNull
     private LocalDate estimatedAt;
 }
