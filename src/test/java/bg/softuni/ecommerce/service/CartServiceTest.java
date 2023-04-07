@@ -28,7 +28,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +63,9 @@ class CartServiceTest {
     @Mock
     private UserRoleRepository mockUserRoleRepository;
 
+    @Mock
+    private ItemRepository mockItemRepostory;
+
     @Captor
     private ArgumentCaptor<CartEntity> cartEntityArgumentCaptor;
 
@@ -92,7 +94,7 @@ class CartServiceTest {
         this.testImageCloudService = new ImageCloudService();
         this.testItemService = new ItemService(mockItemRepository, mockBrandRepository, mockPictureRepository);
         this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder);
-        this.testOfferService = new OfferService(mockOfferRepository, testUserService, testItemService, testImageCloudService, mockPictureRepository);
+        this.testOfferService = new OfferService(mockOfferRepository, testUserService, testItemService, mockItemRepository, testImageCloudService, mockPictureRepository);
         this.toTest = new CartService(mockCartRepository, testOfferService, testUserService);
         this.testUserEntity = new UserEntity(
                 "test",

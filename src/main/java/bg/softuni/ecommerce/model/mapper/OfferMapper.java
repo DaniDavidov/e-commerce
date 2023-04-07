@@ -7,5 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface OfferMapper {
 
-//    OfferEntity offerDtoToOfferEntity(CreateOfferDto addOfferDto);
+//    UpdateOfferDto mapToUpdateOfferDto(OfferEntity offerEntity);
+
+    CreateOfferDto mapToCreateOfferDto(OfferEntity offerEntity);
 }

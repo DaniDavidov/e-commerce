@@ -4,9 +4,13 @@ import bg.softuni.ecommerce.model.dto.brand.BrandDto;
 import bg.softuni.ecommerce.model.dto.offer.CreateOfferDto;
 import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
+import bg.softuni.ecommerce.model.mapper.OfferMapper;
 import bg.softuni.ecommerce.service.BrandService;
 import bg.softuni.ecommerce.service.OfferService;
+import bg.softuni.ecommerce.service.UserService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,10 +28,15 @@ import java.util.List;
 public class OfferController {
     private final BrandService brandService;
     private final OfferService offerService;
+    private final OfferMapper offerMapper;
+    private final UserService userService;
 
-    public OfferController(BrandService brandService, OfferService offerService) {
+    @Autowired
+    public OfferController(BrandService brandService, OfferService offerService, OfferMapper offerMapper, UserService userService) {
         this.brandService = brandService;
         this.offerService = offerService;
+        this.offerMapper = offerMapper;
+        this.userService = userService;
     }
 
     @ModelAttribute("createOfferDto")
@@ -40,6 +49,8 @@ public class OfferController {
         List<BrandDto> brands = this.brandService.allBrands();
         model.addAttribute("brands", brands);
 
+        model.addAttribute("action", "/offers/add");
+        model.addAttribute("method", "POST");
         return "offer-add";
     }
 
@@ -67,22 +78,58 @@ public class OfferController {
     }
 
     @GetMapping("/{offerId}/details")
-    public String getOfferDetails(@PathVariable("offerId") Long offerId, Model model) {
+    public String getOfferDetails(@PathVariable("offerId") Long offerId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         OfferEntity offerEntity = this.offerService.getOfferById(offerId);
         if (offerEntity == null) {
             throw new RuntimeException("No such offer");
         }
         OfferDetailsDto offerDetailsDto = this.offerService.mapToOfferDetails(offerEntity);
         model.addAttribute("offerDetails", offerDetailsDto);
+
+        boolean isAdmin = this.userService.isAdmin(userDetails);
+        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
+
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isSeller", isSeller);
         return "offer-details";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteOffer(@PathVariable("id") Long id) {
-
         offerService.deleteOfferById(id);
         return "redirect:/offers/all";
     }
+
+    @GetMapping("/update/{id}")
+    public String updateOffer(@PathVariable("id") Long offerId, Model model) {
+        List<BrandDto> brands = this.brandService.allBrands();
+        model.addAttribute("brands", brands);
+        model.addAttribute("title", "Update Offer");
+        model.addAttribute("action", "/offers/update/" + offerId);
+        model.addAttribute("method", "post");
+
+        OfferEntity offerEntity = this.offerService.getOfferById(offerId);
+        CreateOfferDto createOfferDto = this.offerMapper.mapToCreateOfferDto(offerEntity);
+        model.addAttribute("createOfferDto", createOfferDto);
+        return "offer-add";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateOffer(@PathVariable("id") Long offerId,
+                              @Valid CreateOfferDto createOfferDto,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("createOfferDto", createOfferDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createOfferDto", bindingResult);
+            return "redirect:/update/" + offerId;
+        }
+
+        this.offerService.updateOffer(offerId, createOfferDto);
+
+        return String.format("redirect:/offers/%d/details", offerId);
+    }
+
 
     @GetMapping("/brand/{id}")
     public String getOffersByBrand(@PathVariable("id") Long brandId,

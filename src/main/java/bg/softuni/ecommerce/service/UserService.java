@@ -12,7 +12,9 @@ import bg.softuni.ecommerce.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -111,5 +113,14 @@ public class UserService {
         UserEntity user = getUserById(userId);
         user.setUserRoles(new HashSet<>(List.of(roleEntity)));
         return this.userRepository.save(user);
+    }
+
+    public boolean isAdmin(UserDetails userDetails) {
+        GrantedAuthority roleAdmin = userDetails.getAuthorities()
+                .stream()
+                .filter(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+                .findAny()
+                .orElse(null);
+        return roleAdmin != null;
     }
 }

@@ -57,8 +57,10 @@
                         </form>
                     </div>
                 </div>
-                <a class="card-link" th:href="@{/offers/update/{id}(id = *{id})}">Update</a>
-                <a class="card-link" th:href="@{/offers/delete/{id}(id = *{id})}">Delete</a>
+                <a class="card-link" th:if="${isAdmin} OR ${isSeller}" th:href="@{/offers/update/{id}(id = *{id})}">Update</a>
+                <form th:if="${isAdmin} OR ${isSeller}" th:action="@{/offers/delete/{id}(id=*{id})}" th:method="post">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
             </div>
 
         </div>

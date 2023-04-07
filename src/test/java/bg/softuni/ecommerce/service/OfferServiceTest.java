@@ -23,12 +23,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,7 +76,7 @@ class OfferServiceTest {
         this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder);
         this.testImageCloudService = new ImageCloudService();
         this.testItemService = new ItemService(mockItemRepository, mockBrandRepository, mockPictureRepository);
-        this.toTest = new OfferService(mockOfferRepository, testUserService, testItemService, testImageCloudService, mockPictureRepository);
+        this.toTest = new OfferService(mockOfferRepository, testUserService, testItemService, mockItemRepository, testImageCloudService, mockPictureRepository);
         this.testUserEntity = new UserEntity(
                 "test",
                 "test@example.com",

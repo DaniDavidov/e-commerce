@@ -19,9 +19,9 @@
 
 
 <div class="container">
-    <h2 class="text-center text-white">Upload Offer</h2>
-    <form   th:action="@{/offers/add}"
-            th:method="post"
+    <h2 class="text-center text-white"><span th:text="${title}"></span></h2>
+    <form   th:action="@{${action}}"
+            th:method="${method}"
             th:object="${createOfferDto}"
             enctype="multipart/form-data"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
