@@ -1,6 +1,10 @@
 package bg.softuni.ecommerce.web;
 
 import bg.softuni.ecommerce.model.entity.UserEntity;
+import bg.softuni.ecommerce.model.entity.UserRoleEntity;
+import bg.softuni.ecommerce.model.entity.enums.GenderEnum;
+import bg.softuni.ecommerce.model.entity.enums.UserRoleEnum;
+import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.util.TestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+import java.util.Set;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -27,16 +34,22 @@ class UserControllerTest {
     @Autowired
     private TestDataUtils testDataUtils;
 
+    private UserRepository testUserRepository;
+
     private UserEntity testUser;
 
     @BeforeEach
     void setUp() {
-        this.testUser = testDataUtils.createTestUser("user7", "user7@example.com");
+        this.testUser = testDataUtils.createTestUser("user", "user@example.com");
     }
 
     @AfterEach
     void tearUp() {
-        testDataUtils.cleanUpDatabase();
+        if (testDataUtils.getUserRepository().count() > 0) {
+            List<UserEntity> all = testDataUtils.getUserRepository().findAll();
+            testDataUtils.getUserRepository().deleteAll();
+            testDataUtils.getUserRoleRepository().deleteAll();
+        }
     }
 
     @WithMockUser(username = "user", authorities = "ROLE_USER")
@@ -76,7 +89,7 @@ class UserControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "admin", password = "12345", authorities = "ROLE_ADMIN")
     @Test
     void testAddToBlacklistWithAdminUserRedirects() throws Exception {
         mockMvc.perform(post("/users/blacklist/add/{id}", testUser.getId()).with(csrf()))

@@ -17,6 +17,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,9 +57,6 @@ class OfferControllerTest {
 
         ItemEntity testItem = testDataUtils.createTestItem(testBrand, testPicture);
         this.testOffer = testDataUtils.createTestOffer(seller, testItem);
-
-//        testOffer = testDataUtils.createTestOffer(testDataUtils.createTestUser("seller", "seller@example.com"),
-//                testDataUtils.createTestItem(testDataUtils.createTestBrand(), testDataUtils.createTestPicture()));
     }
 
     @AfterEach
@@ -76,6 +75,8 @@ class OfferControllerTest {
     }
 
 
+
+    @WithMockUser(username = "user", password = "12345", authorities = "ROLE_USER")
     @Test
     void testOfferDetailsPageShown() throws Exception {
         mockMvc.perform(get("/offers/{offerId}/details", testOffer.getId()))
@@ -135,31 +136,63 @@ class OfferControllerTest {
     }
 
 
-//    @WithUserDetails(value = "user", userDetailsServiceBeanName = "testUserDataService")
-//    @Test
-//    void testUpdateBookPageRegularUserRedirects() throws Exception {
-//        mockMvc.perform(get("/offers/{id}/update", testOffer.getId()))
-//                .andExpect()
-//    }
-//
-//    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "testUserDataService")
-//    @Test
-//    void testUpdateBookPageAdminShown() throws Exception {
-//        mockMvc.perform(get("/offers/update/{id}", testBook.getId()))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("book-add-or-update"))
-//                .andExpect(model().attributeExists("bookModel"))
-//                .andExpect(model().attributeExists("authors"))
-//                .andExpect(model().attributeExists("genres"));
-//    }
+    @WithMockUser(username = "user", password = "12345", authorities = "ROLE_USER")
+    @Test
+    void testUpdateOfferPageRegularUserRedirects() throws Exception {
+        mockMvc.perform(get("/offers/update/{id}", testOffer.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/offers/1/details"));
+    }
+
+    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "testUserDataService")
+    @Test
+    void testUpdateBookPageAdminShown() throws Exception {
+        mockMvc.perform(get("/offers/update/{id}", testOffer.getId()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("offer-add"))
+                .andExpect(model().attributeExists("brands"))
+                .andExpect(model().attributeExists("createOfferDto"));
+    }
+
+    @Test
+    @WithMockUser(username = "seller", password = "12345", authorities = "ROLE_USER")
+    void testUpdateOfferWithOfferSellerOrAdminSuccess() throws Exception {
+        mockMvc.perform(post("/offers/update/{id}", testOffer.getId()).with(csrf())
+                        .param("brandId", testOffer.getItem().getBrand().getId().toString())
+                        .param("manufactureYear", "2015")
+                        .param("name", "cool cloth")
+                        .param("price", BigDecimal.valueOf(2000).toString())
+                        .param("clotheType", ItemType.CREW_NECK.name())
+                        .param("size", SizeEnum.MEDIUM.name())
+                        .param("description", "some text"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(String.format("redirect:/offers/%d/details", testOffer.getId())));
+    }
+
+    @Test
+    @WithMockUser(username = "seller", password = "12345", authorities = "ROLE_USER")
+    void testUpdateOfferWithWrongInputsRedirects() throws Exception {
+        mockMvc.perform(post("/offers/update/{id}", testOffer.getId()).with(csrf())
+                        .param("brandId", "1")
+                        .param("manufactureYear", "2015")
+                        .param("name", "cool cloth")
+                        .param("price", BigDecimal.valueOf(2000).toString())
+                        .param("clotheType", ItemType.CREW_NECK.name())
+                        .param("size", SizeEnum.MEDIUM.name())
+                        .param("description", "some text")
+                        .param("picture", "picture"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(String.format("redirect:/offers/update/%d", testOffer.getId())));
+    }
 
     @Test
     @WithMockUser(
             username = "admin",
+            password = "12345",
             authorities = "ROLE_ADMIN"
     )
     void testDeleteOfferByAdminWorks() throws Exception {
-        mockMvc.perform(delete("/offers/delete/{id}", testOffer.getId()).
+        mockMvc.perform(post("/offers/delete/{id}", testOffer.getId()).
                         with(csrf())
                 ).
                 andExpect(status().is3xxRedirection()).

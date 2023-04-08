@@ -104,9 +104,9 @@ public class TestDataUtils {
 
     public void cleanUpDatabase() {
         orderRepository.deleteAll();
+        userRepository.deleteAll();
         userRoleRepository.deleteAll();
         offerRepository.deleteAll();
-        userRepository.deleteAll();
         brandRepository.deleteAll();
         itemRepository.deleteAll();
         blacklistRepository.deleteAll();

@@ -95,20 +95,38 @@ public class OfferController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteOffer(@PathVariable("id") Long id) {
+    public String deleteOffer(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        OfferEntity offerEntity = this.offerService.getOfferById(id);
+
+        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
+        boolean isAdmin = this.userService.isAdmin(userDetails);
+
+        if(!isAdmin && !isSeller) {
+            return String.format("redirect:/offers/%d/details", id);
+        }
+
         offerService.deleteOfferById(id);
         return "redirect:/offers/all";
     }
 
     @GetMapping("/update/{id}")
-    public String updateOffer(@PathVariable("id") Long offerId, Model model) {
+    public String updateOffer(@PathVariable("id") Long offerId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+
+        OfferEntity offerEntity = this.offerService.getOfferById(offerId);
+
+        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
+        boolean isAdmin = this.userService.isAdmin(userDetails);
+
+        if(!isAdmin && !isSeller) {
+            return String.format("redirect:/offers/%d/details", offerId);
+        }
+
         List<BrandDto> brands = this.brandService.allBrands();
         model.addAttribute("brands", brands);
         model.addAttribute("title", "Update Offer");
         model.addAttribute("action", "/offers/update/" + offerId);
         model.addAttribute("method", "post");
 
-        OfferEntity offerEntity = this.offerService.getOfferById(offerId);
         CreateOfferDto createOfferDto = this.offerMapper.mapToCreateOfferDto(offerEntity);
         model.addAttribute("createOfferDto", createOfferDto);
         return "offer-add";
@@ -122,7 +140,7 @@ public class OfferController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("createOfferDto", createOfferDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createOfferDto", bindingResult);
-            return "redirect:/update/" + offerId;
+            return "redirect:/offers/update/" + offerId;
         }
 
         this.offerService.updateOffer(offerId, createOfferDto);
