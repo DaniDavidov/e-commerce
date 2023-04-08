@@ -32,12 +32,12 @@
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="card-text"><span><a th:href="@{/offers/brand/{id}(id=*{brandId})}" th:text="*{brandName}"></a> </span></div>
-                    <div class="card-text"><span th:text="*{price}">• Price</span></div>
-                    <div class="card-text"><span th:text="*{clotheType}">• Cloth type</span></div>
-                    <div class="card-text"><span th:text="*{size.name()}">• Size</span></div>
-                    <div class="card-text"><span th:text="*{createdAt}">• Offer created</span></div>
-                    <div class="card-text"><span th:text="*{lastModified}">• Offer modified</span></div>
-                    <div class="card-text"><span><a th:href="@{/users/{id}/details(id=*{sellerId})}" th:text="*{sellerUsername}"></a> </span></div>
+                    <div class="card-text">• Price: <span th:text="*{price}"></span></div>
+                    <div class="card-text">• Cloth type: <span th:text="*{clotheType}"></span></div>
+                    <div class="card-text">• Size: <span th:text="*{size.name()}"></span></div>
+                    <div class="card-text">• Offer created: <span th:text="*{createdAt}"></span></div>
+                    <div class="card-text">• Offer modified: <span th:text="*{lastModified}"></span></div>
+                    <div class="card-text">• Seller: <span><a th:href="@{/users/{id}/details(id=*{sellerId})}" th:text="*{sellerUsername}"></a> </span></div>
                 </li>
             </ul>
             <div class="card-body">
