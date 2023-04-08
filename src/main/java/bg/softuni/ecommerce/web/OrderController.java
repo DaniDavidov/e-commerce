@@ -1,11 +1,9 @@
 package bg.softuni.ecommerce.web;
 
 import bg.softuni.ecommerce.model.dto.OrderDto;
-import bg.softuni.ecommerce.model.entity.OrderEntity;
 import bg.softuni.ecommerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,16 +23,20 @@ public class OrderController {
     }
 
     @GetMapping
-    public String getUnprocessedOrders(Model model) {
+    public String getProcessedOrders(Model model) {
         List<OrderDto> allProcessedOrders = this.orderService.getAllProcessedOrders();
         model.addAttribute("orders", allProcessedOrders);
+        model.addAttribute("type", "unprocessed");
+        model.addAttribute("link", "/orders/unprocessed");
         return "orders";
     }
 
     @GetMapping("/unprocessed")
-    public String getProcessedOrders(Model model) {
+    public String getUnprocessedOrders(Model model) {
         List<OrderDto> allUnprocessedOrders = this.orderService.getAllUnprocessedOrders();
         model.addAttribute("orders", allUnprocessedOrders);
+        model.addAttribute("type", "processed");
+        model.addAttribute("link", "/orders");
         return "orders";
     }
 
@@ -48,7 +50,7 @@ public class OrderController {
     @PostMapping("/{id}/confirm")
     public String confirmOrder(@PathVariable("id") Long orderId) {
         this.orderService.confirmOrderById(orderId);
-        return "redirect:/orders";
+        return "redirect:/orders/unprocessed";
     }
 
 

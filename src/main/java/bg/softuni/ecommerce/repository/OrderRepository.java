@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Query("SELECT o FROM OrderEntity o WHERE o.isProcessed = false")
     List<OrderEntity> findAllUnprocessed();
 
+    @Query("DELETE FROM OrderEntity o WHERE o.isProcessed = true")
+    void deleteAllProcessed();
 }

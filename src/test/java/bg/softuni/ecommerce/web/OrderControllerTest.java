@@ -59,7 +59,7 @@ class OrderControllerTest {
 
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     @Test
-    void testPOrdersPageAdminUserShown() throws Exception {
+    void testOrdersPageAdminUserShown() throws Exception {
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("orders"))
@@ -123,6 +123,6 @@ class OrderControllerTest {
     void testConfirmOrderWithAdminUserSuccess() throws Exception {
         mockMvc.perform(post("/orders/{id}/confirm", testOrder.getId()).with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/orders"));
+                .andExpect(view().name("redirect:/orders/unprocessed"));
     }
 }

@@ -67,7 +67,7 @@ public class OrderService {
     public OrderEntity getOrderById(Long orderId) {
         Optional<OrderEntity> orderOpt = orderRepository.findById(orderId);
         if (orderOpt.isEmpty()) {
-            throw new RuntimeException("No such offer");
+            throw new RuntimeException("No such order");
         }
 
         return orderOpt.get();
@@ -89,5 +89,9 @@ public class OrderService {
         OrderEntity order = getOrderById(orderId);
         order.setProcessed(true);
         orderRepository.save(order);
+    }
+
+    public void clearAllConfirmedOrders() {
+        this.orderRepository.deleteAllProcessed();
     }
 }

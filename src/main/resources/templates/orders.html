@@ -16,6 +16,7 @@
 
 
 <div class="container-fluid">
+  <button type="button" class="btn" ><a th:href="@{${link}}">See all <span th:text="${type}"/> offers</a></button>
   <div class="list-group" th:each="order: ${orders}" th:object="${order}">
     <a th:href="@{/orders/{id}/details(id = *{id})}" class="list-group-item list-group-item-action" aria-current="true">
       <div class="d-flex w-100 justify-content-between">

@@ -32,7 +32,7 @@
           <div class="card-text">
             <th:block th:text="*{entry.value}"></th:block>
             x
-            <a th:href="@{/oders/{orderId}/details(orderId=*{entry.key.id})}"
+            <a th:href="@{/offers/{offerId}/details(offerId=*{entry.key.id})}"
                th:text="*{entry.key.name}"></a>
           </div>
         </li>
