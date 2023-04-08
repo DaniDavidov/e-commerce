@@ -98,10 +98,7 @@ public class OfferController {
     public String deleteOffer(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
         OfferEntity offerEntity = this.offerService.getOfferById(id);
 
-        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
-        boolean isAdmin = this.userService.isAdmin(userDetails);
-
-        if(!isAdmin && !isSeller) {
+        if(!isSellerOrAdmin(offerEntity, userDetails)) {
             return String.format("redirect:/offers/%d/details", id);
         }
 
@@ -114,10 +111,7 @@ public class OfferController {
 
         OfferEntity offerEntity = this.offerService.getOfferById(offerId);
 
-        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
-        boolean isAdmin = this.userService.isAdmin(userDetails);
-
-        if(!isAdmin && !isSeller) {
+        if(!isSellerOrAdmin(offerEntity, userDetails)) {
             return String.format("redirect:/offers/%d/details", offerId);
         }
 
@@ -155,5 +149,12 @@ public class OfferController {
                                    @PageableDefault(page = 0, size = 5) Pageable pageable) {
         model.addAttribute("offers", this.offerService.getOffersByBrandId(pageable, brandId));
         return "offers";
+    }
+
+    private boolean isSellerOrAdmin(OfferEntity offerEntity, UserDetails userDetails) {
+        boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());
+        boolean isAdmin = this.userService.isAdmin(userDetails);
+
+        return isAdmin || isSeller;
     }
 }
