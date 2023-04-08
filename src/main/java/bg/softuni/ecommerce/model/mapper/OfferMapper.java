@@ -10,6 +10,12 @@ public interface OfferMapper {
 
 //    UpdateOfferDto mapToUpdateOfferDto(OfferEntity offerEntity);
 
-//    @Mapping(source = "item.brand.id", target = "brandId")
+    @Mapping(source = "item.brand.id", target = "brandId")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "price", target = "price")
+    @Mapping(source = "item.manufactureYear", target = "manufactureYear")
+    @Mapping(source = "item.type", target = "clotheType")
+    @Mapping(source = "item.size", target = "size")
+    @Mapping(source = "description", target = "description")
     CreateOfferDto mapToCreateOfferDto(OfferEntity offerEntity);
 }

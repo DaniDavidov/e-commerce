@@ -1,3 +1,11 @@
+:root {
+    --primary: #ddd;
+    --dark: #333;
+    --light: #fff;
+    --shadow: 0 1px 5px rgba(104, 104, 104, 0.8);
+    --lightGray: rgba(241, 241, 241, 0.8);
+}
+
 body{
     color: white;
     background-position: center center;
@@ -63,107 +71,57 @@ form.main-form {
     color: white;
 }
 
-/** {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    box-sizing: border-box;*/
-/*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
-/*}*/
+@media (max-width: 724px) {
+    .top-container {
+        grid-template-areas:
+      'showcase showcase'
+      'top-box-a top-box-b';
+    }
 
-/*body{*/
-/*    color: #fff;*/
-/*    display: flex;*/
-/*    height: 100vh;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    background-color: #464646;*/
-/*    padding: 10px;*/
-/*}*/
+    .showcase h1 {
+        font-size: 2.5rem;
+    }
+}
+@media (max-width: 500px) {
+    .top-container {
+        grid-template-areas:
+      'showcase'
+      'top-box-a'
+      'top-box-b';
+    }
+}
 
-/*.container{*/
-/*    max-width: 700px;*/
-/*    width: 100%;*/
-/*    padding: 25px 30px;*/
-/*    border-radius: 25px;*/
-/*    background: #1b1e21;*/
-/*}*/
+.top-container {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-areas:
+    'showcase showcase top-box-a'
+    'showcase showcase top-box-b';
+}
 
-/*.container .heading {*/
-/*    font-size: 25px;*/
-/*    font-weight: 500;*/
-/*    position: relative;*/
-/*    text-align: center;*/
-/*    padding: 0 0 20px 0;*/
+/* Showcase */
+.showcase {
+    grid-area: showcase;
+    min-height: 400px;
+    background: url('/images/black-tee-white-tee.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
 
-/*}*/
+.showcase h1 {
+    font-size: 4rem;
+    margin-bottom: 0;
+    color: black;
+}
 
-/*.container .heading::before{*/
-/*    content: '';*/
-/*    position: absolute;*/
-/*    height: 3px;*/
-/*    left: 0;*/
-/*    bottom: 0;*/
-/*    width: 100%;*/
-/*    background: linear-gradient(135deg, #71b7e6, #9b5b);*/
-
-/*}*/
-
-/*.container form .card-details{*/
-/*    margin-top: 25px;*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*    justify-content: space-between;*/
-/*}*/
-
-/*form .card-details .card-box{*/
-/*    width: calc(100% / 2 - 20px);*/
-/*    margin-bottom: 15px;*/
-/*}*/
-
-/*.card-details .card-box {*/
-/*    display: block;*/
-/*    font-weight: 500;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-
-/*.card-details .card-box input {*/
-/*    height: 45px;*/
-/*    width: 100%;*/
-/*    outline: none;*/
-/*    border-radius: 5px;*/
-/*    border: 1px solid #ccc;*/
-/*    padding-left: 15px;*/
-/*    font-size: 16px;*/
-/*    border-bottom-width: 2px;*/
-/*    transition: all 0.3s ease;*/
-/*}*/
-
-/*form .circal-form .circal-title {*/
-/*    font-size: 20px;*/
-/*    font-weight: 500;*/
-/*    border-bottom: 2px solid;*/
-/*}*/
-
-/*form .circal-form .category {*/
-/*    margin-top: 10px;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-
-/*form .button input {*/
-/*    padding: 10px 0;*/
-/*    margin-top: 10px;*/
-/*    height: 100%;*/
-/*    width: 50%;*/
-/*    outline: none;*/
-/*    color: #fff;*/
-/*    border: none;*/
-/*    font-size: 18px;*/
-/*    font-weight: 500;*/
-/*    border-radius: 5px;*/
-/*    letter-spacing: 1px;*/
-/*    background: linear-gradient(135deg, #71b7e6, #9b5b);*/
-/*}*/
-
-/*form .button input:hover {*/
-/*    background: linear-gradient(135deg, #71b7e6, #9b5b);*/
-/*}*/
+.showcase p {
+    font-size: 1.3rem;
+    margin-top: 0;
+    color: black;
+}

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <script src="/js/bootstrap.min.js"></script>
 </head>
 
@@ -19,6 +20,15 @@
 
 
     <div class="container-fluid">
+<!--        <div class="dropdown">-->
+<!--            <button class="btn btn-primary dropdown-toggle" type="button" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clothes type-->
+<!--                <span class="caret"></span></button>-->
+<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+<!--                <li th:each="e : ${T(bg.softuni.ecommerce.model.entity.enums.ItemType).values()}">-->
+<!--                    <a class="dropdown-item" th:href="@{/offers/${e.name().toLowerCase()}}"><span th:text="${e.name()}"/> </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
         <h2 class="text-center text-white mt-5" th:if="${offers.hasContent()}">All Offers</h2>
         <h2 class="text-center text-white mt-5" th:unless="${offers.hasContent()}">No offers meeting the criteria</h2>
         <div class="offers row mx-auto d-flex flex-row justify-content-center">

@@ -84,7 +84,8 @@ public class OfferService {
                 user,
                 createOfferDto.getPrice(),
                 LocalDate.now(),
-                LocalDate.now());
+                LocalDate.now(),
+                createOfferDto.getDescription());
     }
 
     public OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {

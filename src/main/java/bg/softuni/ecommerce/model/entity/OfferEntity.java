@@ -40,5 +40,7 @@ public class OfferEntity extends BaseEntity {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
+    private String description;
+
 
 }
