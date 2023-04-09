@@ -122,7 +122,8 @@ class CartServiceTest {
                 testUserEntity,
                 BigDecimal.valueOf(2000),
                 LocalDate.now(),
-                LocalDate.now());
+                LocalDate.now(),
+                "some text");
         this.testAddItemToCartDto = new AddItemToCartDto(OFFER_ID, QUANTITY);
         this.testCartEntity = new CartEntity(testOfferEntity, QUANTITY, testUserEntity);
         this.userDetails = new User(

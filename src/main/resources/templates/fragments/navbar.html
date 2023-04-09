@@ -20,6 +20,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto col-10 justify-content-between">
         <li class="nav-item">
+          <a class="nav-link" th:href="@{/brands/add}">Add brand</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" th:href="@{/brands/all}">Brands</a>
         </li>
         <li class="nav-item" >
@@ -27,19 +30,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" th:href="@{/offers/all}">All Offers</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" th:href="@{/cloths/all}" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Cloths
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" th:href="@{/cloths/jeans}">Jeans</a>
-            <a class="dropdown-item" th:href="@{/cloths/tshirts}">T-shirts</a>
-            <a class="dropdown-item" th:href="@{/cloths/crewnecks}">Crew necks</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/">Something else here</a>
-          </div>
         </li>
         <li class="nav-item" sec:authorize="!isAuthenticated()">
           <a class="nav-link" th:href="@{/users/register}">Register</a>

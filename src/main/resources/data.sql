@@ -17,9 +17,11 @@ VALUES (1, 1),
 
 INSERT INTO pictures(url)
 VALUES
-    ("n/a"),
-    ("n/a"),
-    ("n/a");
+    ("https://res.cloudinary.com/du90acnb6/image/upload/v1681020560/1ddb32b8-6448-4200-8bfe-a4bbd751d2c7.jpg"),
+    ("https://res.cloudinary.com/du90acnb6/image/upload/v1681020515/cdfe8a3d-0287-4414-8eaa-a2f747aea06d.jpg"),
+    ("https://res.cloudinary.com/du90acnb6/image/upload/v1681020038/9b1bb3ff-3f46-42b6-ba08-051ba179a52f.jpg"),
+    ("https://res.cloudinary.com/du90acnb6/image/upload/v1680950053/f7ec48cd-67c7-4534-a012-d3f79235366b.jpg"),
+    ("https://res.cloudinary.com/du90acnb6/image/upload/v1681021080/6cf4358e-498e-418e-914f-1a88c03fc519.jpg");
 
 INSERT INTO brands (id, `name`, estimated_at)
 VALUES (1, 'Gucci', '1998-01-03'),
@@ -28,9 +30,9 @@ VALUES (1, 'Gucci', '1998-01-03'),
        (4, 'Caesare Paciotti', '1892-08-09'),
        (5, 'Louis Vuitton', '1896-09-06');
 INSERT INTO items (id, `type`, manufacture_year, picture_id, brand_id, `size`)
-VALUES (1, 'T_SHIRT', 1976, 2, 1, 'MEDIUM'),
-       (2, 'TROUSERS', 1968, 1, 1, 'MEDIUM'),
-       (3, 'CREW_NECK', 1999, 3, 2, 'MEDIUM');
+VALUES (1, 'T_SHIRT', 1976, 1, 1, 'MEDIUM'),
+       (2, 'TROUSERS', 1968, 4, 1, 'MEDIUM'),
+       (3, 'CREW_NECK', 1999, 5, 2, 'MEDIUM');
 
 
 

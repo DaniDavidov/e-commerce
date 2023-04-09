@@ -93,7 +93,7 @@ public class TestDataUtils {
     }
 
     public OfferEntity createTestOffer(UserEntity publisher, ItemEntity item) {
-        OfferEntity offer = new OfferEntity(item, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now());
+        OfferEntity offer = new OfferEntity(item, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now(), "text");
         return this.offerRepository.save(offer);
     }
 
