@@ -46,7 +46,6 @@ class UserControllerTest {
     @AfterEach
     void tearUp() {
         if (testDataUtils.getUserRepository().count() > 0) {
-            List<UserEntity> all = testDataUtils.getUserRepository().findAll();
             testDataUtils.getUserRepository().deleteAll();
             testDataUtils.getUserRoleRepository().deleteAll();
         }

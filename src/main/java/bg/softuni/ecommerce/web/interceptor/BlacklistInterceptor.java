@@ -39,24 +39,5 @@ public class BlacklistInterceptor implements HandlerInterceptor{
         }
         return true;
     }
-
-    // with ip address:
-//    public String getIpAddressFromRequest(HttpServletRequest request) {
-//        String ipAddress = null;
-//        String xffHeader = request.getHeader("X-Forwarded-For");
-//
-//        if (xffHeader != null && !xffHeader.equals("unknown")) {
-//            int commaIdx = xffHeader.indexOf(",");
-//
-//            if (commaIdx > 0) {
-//                ipAddress = xffHeader.substring(0, commaIdx);
-//            }
-//        }
-//
-//        if (ipAddress == null) {
-//            ipAddress = request.getRemoteAddr();
-//        }
-//
-//        return ipAddress;
-//    }
+    
 }
