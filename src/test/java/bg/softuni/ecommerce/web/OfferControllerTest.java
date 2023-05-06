@@ -55,8 +55,7 @@ class OfferControllerTest {
 
         PictureEntity testPicture = testDataUtils.createTestPicture();
 
-        ItemEntity testItem = testDataUtils.createTestItem(testBrand, testPicture);
-        this.testOffer = testDataUtils.createTestOffer(seller, testItem);
+        this.testOffer = testDataUtils.createTestOffer(seller, testBrand, testPicture);
     }
 
     @AfterEach
@@ -106,8 +105,8 @@ class OfferControllerTest {
     @Test
     void testAddOfferPageWithAuthenticatedUserSuccess() throws Exception {
         mockMvc.perform(post("/offers/add")
-                .param("brandId", testOffer.getItem().getBrand().getId().toString())
-                .param("manufactureYear", testOffer.getItem().getManufactureYear().toString())
+                .param("brandId", testOffer.getBrand().getId().toString())
+                .param("manufactureYear", testOffer.getManufactureYear().toString())
                 .param("name", "pants")
                 .param("price", "200")
                 .param("clotheType", ItemType.TROUSERS.name())
@@ -122,8 +121,8 @@ class OfferControllerTest {
     @Test
     void testAddOfferPageWithInvalidInputRedirects() throws Exception {
         mockMvc.perform(post("/offers/add")
-                        .param("brandId", testOffer.getItem().getBrand().getId().toString())
-                        .param("manufactureYear", testOffer.getItem().getManufactureYear().toString())
+                        .param("brandId", testOffer.getBrand().getId().toString())
+                        .param("manufactureYear", testOffer.getManufactureYear().toString())
                         .param("name", "pants")
                         .param("price", "-8")
                         .param("clotheType", ItemType.TROUSERS.name())
@@ -158,7 +157,7 @@ class OfferControllerTest {
     @WithMockUser(username = "seller", password = "12345", authorities = "ROLE_USER")
     void testUpdateOfferWithOfferSellerOrAdminSuccess() throws Exception {
         mockMvc.perform(post("/offers/update/{id}", testOffer.getId()).with(csrf())
-                        .param("brandId", testOffer.getItem().getBrand().getId().toString())
+                        .param("brandId", testOffer.getBrand().getId().toString())
                         .param("manufactureYear", "2015")
                         .param("name", "cool cloth")
                         .param("price", BigDecimal.valueOf(2000).toString())

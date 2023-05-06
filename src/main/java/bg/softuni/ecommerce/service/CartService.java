@@ -7,6 +7,7 @@ import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.model.entity.CartEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.model.entity.UserEntity;
+import bg.softuni.ecommerce.model.error.OfferNotFoundException;
 import bg.softuni.ecommerce.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CartService {
         this.userService = userService;
     }
 
-    public boolean addToCart(UserDetails userDetails, AddItemToCartDto addItemToCartDto) {
+    public CartEntity addToCart(UserDetails userDetails, AddItemToCartDto addItemToCartDto) {
         OfferEntity offer = this.offerService.getOfferById(addItemToCartDto.getOfferId());
 
         UserEntity user = this.userService.getUserByUsername(userDetails.getUsername());
@@ -41,14 +42,14 @@ public class CartService {
         cartEntity.setQuantity(addItemToCartDto.getQuantity());
 
         this.cartRepository.save(cartEntity);
-        return true;
+        return cartEntity;
     }
 
 
-    public OfferAddedToCartDto getAddedOffer(AddItemToCartDto cartDto) {
-        return cartRepository.findByOfferId(cartDto.getOfferId())
+    public OfferAddedToCartDto getAddedOffer(Long id) {
+        return cartRepository.findById(id)
                 .map(cartEntity -> new OfferAddedToCartDto(cartEntity.getQuantity(), cartEntity.getOffer().getName()))
-                .orElseThrow(() -> new RuntimeException("No such offer"));
+                .orElseThrow(() -> new OfferNotFoundException(id));
     }
 
     public List<CartDto> getAllOffersInCart(UserDetails userDetails) {
@@ -64,8 +65,8 @@ public class CartService {
                 cartEntity.getQuantity(),
                 cartEntity.getOffer().getName(),
                 cartEntity.getOffer().getId(),
-                cartEntity.getOffer().getItem().getBrand().getName(),
-                cartEntity.getOffer().getItem().getBrand().getId(),
+                cartEntity.getOffer().getBrand().getName(),
+                cartEntity.getOffer().getBrand().getId(),
                 cartEntity.getOffer().getSeller().getUsername(),
                 cartEntity.getOffer().getSeller().getId());
     }

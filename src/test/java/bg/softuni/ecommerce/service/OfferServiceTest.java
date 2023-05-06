@@ -16,10 +16,12 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.TemplateEngine;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,14 +36,13 @@ class OfferServiceTest {
 
     private OfferService toTest;
 
+    private BrandService testBrandService;
+
     @Mock
     private OfferRepository mockOfferRepository;
 
     @Mock
     private PictureRepository mockPictureRepository;
-
-    @Mock
-    private ItemRepository mockItemRepository;
 
     @Mock
     private BrandRepository mockBrandRepository;
@@ -58,25 +59,22 @@ class OfferServiceTest {
     @Captor
     private ArgumentCaptor<OfferEntity> offerEntityArgumentCaptor;
 
-
-    @Captor
-    private ArgumentCaptor<ItemEntity> itemEntityArgumentCaptor;
-
     private ImageCloudService testImageCloudService;
 
     private UserService testUserService;
 
-    private ItemService testItemService;
-
     private UserEntity testUserEntity;
+
+    private EmailService emailService;
 
 
     @BeforeEach
     void setUp() {
-        this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder);
+        this.testBrandService = new BrandService(mockBrandRepository);
+        this.emailService = new EmailService(new JavaMailSenderImpl(), new TemplateEngine());
+        this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder, emailService);
         this.testImageCloudService = new ImageCloudService();
-        this.testItemService = new ItemService(mockItemRepository, mockBrandRepository, mockPictureRepository);
-        this.toTest = new OfferService(mockOfferRepository, testUserService, testItemService, mockItemRepository, testImageCloudService, mockPictureRepository);
+        this.toTest = new OfferService(mockOfferRepository, testUserService, testImageCloudService, mockPictureRepository, testBrandService);
         this.testUserEntity = new UserEntity(
                 "test",
                 "test@example.com",
@@ -121,17 +119,14 @@ class OfferServiceTest {
 
         toTest.createOffer(testCreateOfferDto, userDetails);
         Mockito.verify(mockOfferRepository).save(offerEntityArgumentCaptor.capture());
-        Mockito.verify(mockItemRepository).save(itemEntityArgumentCaptor.capture());
-
         OfferEntity savedOfferEntity = offerEntityArgumentCaptor.getValue();
-        ItemEntity savedItemEntity = itemEntityArgumentCaptor.getValue();
 
-        Assertions.assertEquals(testCreateOfferDto.getBrandId(), savedItemEntity.getBrand().getId());
-        Assertions.assertEquals(testCreateOfferDto.getManufactureYear(), savedItemEntity.getManufactureYear());
+        Assertions.assertEquals(testCreateOfferDto.getBrandId(), savedOfferEntity.getBrand().getId());
+        Assertions.assertEquals(testCreateOfferDto.getManufactureYear(), savedOfferEntity.getManufactureYear());
         Assertions.assertEquals(testCreateOfferDto.getName(), savedOfferEntity.getName());
         Assertions.assertEquals(testCreateOfferDto.getPrice(), savedOfferEntity.getPrice());
-        Assertions.assertEquals(testCreateOfferDto.getClotheType(), savedItemEntity.getType());
-        Assertions.assertEquals(testCreateOfferDto.getSize(), savedItemEntity.getSize());
+        Assertions.assertEquals(testCreateOfferDto.getClotheType(), savedOfferEntity.getType());
+        Assertions.assertEquals(testCreateOfferDto.getSize(), savedOfferEntity.getSize());
     }
 
 }

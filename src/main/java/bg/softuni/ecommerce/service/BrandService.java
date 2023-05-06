@@ -3,6 +3,7 @@ package bg.softuni.ecommerce.service;
 import bg.softuni.ecommerce.model.dto.brand.BrandDto;
 import bg.softuni.ecommerce.model.dto.brand.CreateBrandDto;
 import bg.softuni.ecommerce.model.entity.BrandEntity;
+import bg.softuni.ecommerce.model.error.BrandNotFoundException;
 import bg.softuni.ecommerce.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class BrandService {
         return new BrandDto(
                 brandEntity.getId(),
                 brandEntity.getName(),
-                brandEntity.getItems().size());
+                brandEntity.getOffers().size());
     }
 
     public void createBrand(CreateBrandDto createBrandDto) {
@@ -44,5 +45,9 @@ public class BrandService {
                 createBrandDto.getName(),
                 createBrandDto.getSlogan(),
                 createBrandDto.getEstimatedAt());
+    }
+
+    public BrandEntity getBrand(Long brandId) {
+        return this.brandRepository.findById(brandId).orElseThrow(() -> new BrandNotFoundException(brandId));
     }
 }

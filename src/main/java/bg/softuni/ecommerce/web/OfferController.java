@@ -121,7 +121,7 @@ public class OfferController {
         model.addAttribute("action", "/offers/update/" + offerId);
         model.addAttribute("method", "post");
 
-        CreateOfferDto createOfferDto = this.offerMapper.mapToCreateOfferDto(offerEntity);
+        CreateOfferDto createOfferDto = this.offerService.mapToCreateOfferDto(offerEntity);
         model.addAttribute("createOfferDto", createOfferDto);
         return "offer-add";
     }

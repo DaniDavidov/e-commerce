@@ -2,6 +2,7 @@ package bg.softuni.ecommerce.web;
 
 import bg.softuni.ecommerce.model.dto.cart.AddItemToCartDto;
 import bg.softuni.ecommerce.model.dto.cart.OfferAddedToCartDto;
+import bg.softuni.ecommerce.model.entity.CartEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.service.CartService;
 import bg.softuni.ecommerce.service.OfferService;
@@ -27,10 +28,7 @@ public class CartRestController {
     @PostMapping(path = "/api/cart", consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfferAddedToCartDto> addItemToCart(@AuthenticationPrincipal UserDetails userDetails,
                                                              @RequestBody AddItemToCartDto cartDto) {
-        if (cartService.addToCart(userDetails, cartDto)) {
-            return ResponseEntity.ok(cartService.getAddedOffer(cartDto));
-        }
-
-        return ResponseEntity.notFound().build();
+        CartEntity cart = cartService.addToCart(userDetails, cartDto);
+        return ResponseEntity.ok(cartService.getAddedOffer(cart.getId()));
     }
 }

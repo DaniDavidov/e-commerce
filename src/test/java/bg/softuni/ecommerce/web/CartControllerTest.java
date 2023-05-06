@@ -41,8 +41,7 @@ class CartControllerTest {
         BrandEntity testBrand = this.testDataUtils.createTestBrand();
         PictureEntity testPicture = this.testDataUtils.createTestPicture();
 
-        ItemEntity testItem = this.testDataUtils.createTestItem(testBrand, testPicture);
-        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testItem);
+        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testBrand, testPicture);
 
         UserEntity owner = this.testDataUtils.createTestUser("owner", "owner@example.com");
         this.testCart = new CartEntity(testOffer, ITEM_QUANTITY, owner);

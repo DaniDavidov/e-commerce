@@ -40,9 +40,7 @@ class OrderControllerTest {
         BrandEntity testBrand = this.testDataUtils.createTestBrand();
         PictureEntity testPicture = this.testDataUtils.createTestPicture();
         UserEntity publisher = this.testDataUtils.createTestUser("publisher", "publisher@example.com");
-
-        ItemEntity testItem = this.testDataUtils.createTestItem(testBrand, testPicture);
-        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testItem);
+        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testBrand, testPicture);
         this.testOrder = new OrderEntity(owner, Map.of(testOffer, 3));
         this.testDataUtils.getOrderRepository().save(testOrder);
     }

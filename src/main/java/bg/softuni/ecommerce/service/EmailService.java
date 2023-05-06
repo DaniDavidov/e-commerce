@@ -40,7 +40,7 @@ public class EmailService {
         }
     }
 
-    private String generateEmailText(String userName) {
+    public String generateEmailText(String userName) {
         Context context = new Context();
         context.setLocale(Locale.getDefault());
         context.setVariable("userName", userName);

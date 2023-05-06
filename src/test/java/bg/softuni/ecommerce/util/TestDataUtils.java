@@ -17,7 +17,6 @@ public class TestDataUtils {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final BrandRepository brandRepository;
-    private final ItemRepository itemRepository;
     private final OfferRepository offerRepository;
     private final OrderRepository orderRepository;
     private final PictureRepository pictureRepository;
@@ -28,7 +27,6 @@ public class TestDataUtils {
     public TestDataUtils(UserRepository userRepository,
                          UserRoleRepository userRoleRepository,
                          BrandRepository brandRepository,
-                         ItemRepository itemRepository,
                          OfferRepository offerRepository,
                          OrderRepository orderRepository,
                          PictureRepository pictureRepository,
@@ -37,7 +35,6 @@ public class TestDataUtils {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.brandRepository = brandRepository;
-        this.itemRepository = itemRepository;
         this.offerRepository = offerRepository;
         this.orderRepository = orderRepository;
         this.pictureRepository = pictureRepository;
@@ -82,18 +79,13 @@ public class TestDataUtils {
         return this.brandRepository.save(brandEntity);
     }
 
-    public ItemEntity createTestItem(BrandEntity brand, PictureEntity picture) {
-        ItemEntity item = new ItemEntity(ItemType.TROUSERS, 2000, picture, brand, SizeEnum.LARGE);
-        return this.itemRepository.save(item);
-    }
-
     public CartEntity createTestCart() {
-        CartEntity cart = new CartEntity(createTestOffer(createTestUser("publisher", "publisher@examle.com"), createTestItem(createTestBrand(), createTestPicture())), 2, createTestUser("buyer", "buyer@example.com"));
+        CartEntity cart = new CartEntity(createTestOffer(createTestUser("publisher", "publisher@examle.com"), createTestBrand(), createTestPicture()), 2, createTestUser("buyer", "buyer@example.com"));
         return this.cartRepository.save(cart);
     }
 
-    public OfferEntity createTestOffer(UserEntity publisher, ItemEntity item) {
-        OfferEntity offer = new OfferEntity(item, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now(), "text");
+    public OfferEntity createTestOffer(UserEntity publisher, BrandEntity brand, PictureEntity picture) {
+        OfferEntity offer = new OfferEntity(ItemType.TROUSERS, 2000, picture, brand, SizeEnum.LARGE, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now(), "text");
         return this.offerRepository.save(offer);
     }
 
@@ -108,7 +100,6 @@ public class TestDataUtils {
         userRoleRepository.deleteAll();
         offerRepository.deleteAll();
         brandRepository.deleteAll();
-        itemRepository.deleteAll();
         blacklistRepository.deleteAll();
     }
 
@@ -129,8 +120,7 @@ public class TestDataUtils {
         PictureEntity testPicture = createTestPicture();
 
         UserEntity publisher = createTestUser("publisher", "publisher@example.com");
-        ItemEntity testItem = createTestItem(testBrand, testPicture);
-        items.put(createTestOffer(publisher, testItem), 3);
+        items.put(createTestOffer(publisher, testBrand, testPicture), 3);
         return items;
     }
 
@@ -147,9 +137,6 @@ public class TestDataUtils {
         return brandRepository;
     }
 
-    public ItemRepository getItemRepository() {
-        return itemRepository;
-    }
 
     public OfferRepository getOfferRepository() {
         return offerRepository;

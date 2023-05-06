@@ -21,8 +21,8 @@ public class BrandEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "brand", targetEntity = ItemEntity.class, fetch = FetchType.EAGER)
-    private List<ItemEntity> items;
+    @OneToMany(mappedBy = "brand", targetEntity = OfferEntity.class, fetch = FetchType.EAGER)
+    private List<OfferEntity> offers;
 
     private String slogan;
 

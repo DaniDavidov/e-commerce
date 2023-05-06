@@ -1,6 +1,8 @@
 package bg.softuni.ecommerce.model.entity;
 
+import bg.softuni.ecommerce.model.entity.enums.ItemType;
 import bg.softuni.ecommerce.model.entity.enums.OfferRating;
+import bg.softuni.ecommerce.model.entity.enums.SizeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +21,23 @@ import java.time.LocalDate;
 @Table(name = "offers")
 public class OfferEntity extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ItemEntity item;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ItemType type;
+
+    @Column(name = "manufacture_year", nullable = false)
+    private Integer manufactureYear;
+
+    @ManyToOne
+    private PictureEntity picture;
+
+    @ManyToOne
+    private BrandEntity brand;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SizeEnum size;
+
 
     @Column(nullable = false)
     private String name;

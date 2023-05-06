@@ -2,6 +2,7 @@ package bg.softuni.ecommerce.web;
 
 import bg.softuni.ecommerce.model.dto.cart.AddItemToCartDto;
 import bg.softuni.ecommerce.model.dto.cart.OfferAddedToCartDto;
+import bg.softuni.ecommerce.model.entity.CartEntity;
 import bg.softuni.ecommerce.service.CartService;
 import bg.softuni.ecommerce.service.OfferService;
 import bg.softuni.ecommerce.service.UserService;
@@ -37,13 +38,12 @@ class CartRestControllerTest {
     @MockBean
     private CartService cartService;
 
-
     @WithMockUser(authorities = "ROLE_USER", username = "user@example.com")
     @Test
     void testAddToCartWithRegularUserSuccessful() throws Exception {
         when(cartService.addToCart(any(UserDetails.class), any(AddItemToCartDto.class)))
-                .thenReturn(true);
-        when(cartService.getAddedOffer(any(AddItemToCartDto.class)))
+                .thenReturn(new CartEntity());
+        when(cartService.getAddedOffer(any(Long.class)))
                 .thenReturn(new OfferAddedToCartDto(2, "pants"));
 
         ObjectMapper objectMapper = new ObjectMapper();

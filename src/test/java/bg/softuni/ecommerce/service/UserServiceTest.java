@@ -5,6 +5,7 @@ import bg.softuni.ecommerce.model.dto.user.UserProfileDto;
 import bg.softuni.ecommerce.model.dto.user.UserRegisterDto;
 import bg.softuni.ecommerce.model.entity.UserEntity;
 import bg.softuni.ecommerce.model.entity.UserRoleEntity;
+import bg.softuni.ecommerce.model.entity.enums.GenderEnum;
 import bg.softuni.ecommerce.model.entity.enums.UserRoleEnum;
 import bg.softuni.ecommerce.repository.UserRepository;
 import bg.softuni.ecommerce.repository.UserRoleRepository;
@@ -18,12 +19,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.opentest4j.AssertionFailedError;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.TemplateEngine;
 
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,10 +36,11 @@ class UserServiceTest {
     private static final String TEST_USERNAME = "testUsername";
     private static final String TEST_FIRST_NAME = "Test";
     private static final String TEST_LAST_NAME = "Testov";
-    private static final String PASSWORD = "12345";
+    private static final String TEST_PASSWORD = "12345";
     private static final String TEST_EMAIL = "test@example.com";
     private static final String TEST_PHONE_NUMBER = "089089089";
     private static final String TEST_ADDRESS = "address";
+    private static final GenderEnum TEST_GENDER = GenderEnum.MALE;
     private static final Long TEST_ID = 1L;
     private static final UserRoleEnum MODERATOR_ROLE = UserRoleEnum.MODERATOR;
     private static final UserRoleEnum USER_ROLE = UserRoleEnum.USER;
@@ -58,15 +62,19 @@ class UserServiceTest {
 
     private UserEntity testUserEntity;
 
+    @Mock
+    private EmailService emailService;
+
     @BeforeEach
     void setUp() {
-        toTest = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder);
+        this.emailService = new EmailService(new JavaMailSenderImpl(), new TemplateEngine());
+        toTest = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder, emailService);
         this.testUserEntity = new UserEntity();
         testUserEntity.setId(TEST_ID);
         testUserEntity.setUsername(TEST_USERNAME);
         testUserEntity.setFirstName(TEST_FIRST_NAME);
         testUserEntity.setLastName(TEST_LAST_NAME);
-        testUserEntity.setPassword(PASSWORD);
+        testUserEntity.setPassword(TEST_PASSWORD);
         testUserEntity.setEmail(TEST_EMAIL);
         testUserEntity.setPhoneNumber(TEST_PHONE_NUMBER);
         testUserEntity.setAddress(TEST_ADDRESS);
@@ -77,14 +85,19 @@ class UserServiceTest {
     void testUserRegistration() {
         String encodedPassword = "encodedPassword";
 
-        UserRegisterDto testRegisterDto = new UserRegisterDto();
-        testRegisterDto.setUsername(TEST_USERNAME);
-        testRegisterDto.setFirstName(TEST_FIRST_NAME);
-        testRegisterDto.setLastName(TEST_LAST_NAME);
-        testRegisterDto.setPassword(PASSWORD);
+        UserRegisterDto testRegisterDto = new UserRegisterDto(
+                TEST_FIRST_NAME,
+                TEST_LAST_NAME,
+                TEST_EMAIL,
+                TEST_USERNAME,
+                TEST_PHONE_NUMBER,
+                TEST_GENDER,
+                TEST_PASSWORD,
+                TEST_PASSWORD);
 
         when(mockPasswordEncoder.encode(testRegisterDto.getPassword()))
                 .thenReturn(encodedPassword);
+        when(emailService.generateEmailText(TEST_USERNAME)).thenReturn(null);
 
         toTest.register(testRegisterDto);
 

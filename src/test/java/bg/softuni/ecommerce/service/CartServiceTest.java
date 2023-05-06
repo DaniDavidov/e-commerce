@@ -16,10 +16,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.opentest4j.AssertionFailedError;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.TemplateEngine;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -54,8 +56,6 @@ class CartServiceTest {
     @Mock
     private PictureRepository mockPictureRepository;
 
-    @Mock
-    private ItemRepository mockItemRepository;
 
     @Mock
     private BrandRepository mockBrandRepository;
@@ -63,13 +63,9 @@ class CartServiceTest {
     @Mock
     private UserRoleRepository mockUserRoleRepository;
 
-    @Mock
-    private ItemRepository mockItemRepostory;
 
     @Captor
     private ArgumentCaptor<CartEntity> cartEntityArgumentCaptor;
-
-    private ItemService testItemService;
 
     private OfferService testOfferService;
 
@@ -81,20 +77,23 @@ class CartServiceTest {
 
     private OfferEntity testOfferEntity;
 
-    private ItemEntity testItemEntity;
-
     private BrandEntity testBrandEntity;
 
     private AddItemToCartDto testAddItemToCartDto;
 
     private UserDetails userDetails;
 
+    private EmailService emailService;
+
+    private BrandService testBrandService;
+
     @BeforeEach
     void setUp() {
+        this.testBrandService = new BrandService(mockBrandRepository);
+        this.emailService = new EmailService(new JavaMailSenderImpl(), new TemplateEngine());
         this.testImageCloudService = new ImageCloudService();
-        this.testItemService = new ItemService(mockItemRepository, mockBrandRepository, mockPictureRepository);
-        this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder);
-        this.testOfferService = new OfferService(mockOfferRepository, testUserService, testItemService, mockItemRepository, testImageCloudService, mockPictureRepository);
+        this.testUserService = new UserService(mockUserRepository, mockUserRoleRepository, mockPasswordEncoder, emailService);
+        this.testOfferService = new OfferService(mockOfferRepository, testUserService, testImageCloudService, mockPictureRepository, testBrandService);
         this.toTest = new CartService(mockCartRepository, testOfferService, testUserService);
         this.testUserEntity = new UserEntity(
                 "test",
@@ -109,14 +108,12 @@ class CartServiceTest {
                 "testBrand",
                 "slogan",
                 LocalDate.of(2000, 1, 12));
-        this.testItemEntity = new ItemEntity(
+        this.testOfferEntity = new OfferEntity(
                 ItemType.TROUSERS,
                 2000,
                 new PictureEntity("n/a"),
                 testBrandEntity,
-                SizeEnum.LARGE);
-        this.testOfferEntity = new OfferEntity(
-                testItemEntity,
+                SizeEnum.LARGE,
                 "pants",
                 OfferRating.ZERO,
                 testUserEntity,
@@ -149,14 +146,14 @@ class CartServiceTest {
 
         Assertions.assertEquals(testOfferEntity.getName(), savedCartEntity.getOffer().getName());
         Assertions.assertEquals(testOfferEntity.getPrice(), savedCartEntity.getOffer().getPrice());
-        Assertions.assertEquals(testItemEntity.getType().name(), savedCartEntity.getOffer().getItem().getType().name());
-        Assertions.assertEquals(testBrandEntity.getName(), savedCartEntity.getOffer().getItem().getBrand().getName());
+        Assertions.assertEquals(testOfferEntity.getType().name(), savedCartEntity.getOffer().getType().name());
+        Assertions.assertEquals(testBrandEntity.getName(), savedCartEntity.getOffer().getBrand().getName());
     }
 
     @Test
     void testGetAddedOffer() {
-        when(mockCartRepository.findByOfferId(OFFER_ID)).thenReturn(Optional.of(testCartEntity));
-        OfferAddedToCartDto addedOffer = toTest.getAddedOffer(testAddItemToCartDto);
+        when(mockCartRepository.findById(testCartEntity.getId())).thenReturn(Optional.of(testCartEntity));
+        OfferAddedToCartDto addedOffer = toTest.getAddedOffer(testCartEntity.getId());
 
         Assertions.assertEquals(this.testOfferEntity.getName(), addedOffer.getOfferName());
         Assertions.assertEquals(QUANTITY, addedOffer.getQuantity());

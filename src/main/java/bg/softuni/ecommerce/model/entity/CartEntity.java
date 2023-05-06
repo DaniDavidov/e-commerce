@@ -17,7 +17,7 @@ import lombok.Setter;
 @Table(name = "cart_entities")
 public class CartEntity extends BaseEntity {
 
-    @OneToOne
+    @ManyToOne
     private OfferEntity offer;
 
     private int quantity;
