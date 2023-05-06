@@ -6,3 +6,8 @@ spring:
   sql:
     init:
       mode: never
+  mail:
+    host: localhost
+    port: 1025
+    username: "admin@example.com"
+    password: ""
