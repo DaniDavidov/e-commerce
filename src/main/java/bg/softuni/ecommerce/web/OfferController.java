@@ -73,7 +73,25 @@ public class OfferController {
 
     @GetMapping("/all")
     public String allOffers(Model model, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        // redirecting details
+        model.addAttribute("link", "/offers/all/unapproved");
+        model.addAttribute("type", "unapproved");
+
+        // page details
+        model.addAttribute("title", "All offers");
         model.addAttribute("offers", this.offerService.getAllOffers(pageable));
+        return "offers";
+    }
+
+    @GetMapping("/all/unapproved")
+    public String offersToBeApproved(Model model, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        // redirecting details
+        model.addAttribute("link", "/offers/all");
+        model.addAttribute("type", "approved");
+
+        // page details
+        model.addAttribute("title", "All unapproved offers");
+        model.addAttribute("offers", this.offerService.getAllUnapprovedOffers(pageable));
         return "offers";
     }
 
@@ -150,6 +168,13 @@ public class OfferController {
         model.addAttribute("offers", this.offerService.getOffersByBrandId(pageable, brandId));
         return "offers";
     }
+
+    @PostMapping("/approve/{id}")
+    public String approveOffer(@PathVariable("id") Long offerId) {
+        this.offerService.approveOffer(offerId);
+        return String.format("redirect:/offers/%d/details", offerId);
+    }
+
 
     private boolean isSellerOrAdmin(OfferEntity offerEntity, UserDetails userDetails) {
         boolean isSeller = offerEntity.getSeller().getUsername().equals(userDetails.getUsername());

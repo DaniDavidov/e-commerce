@@ -32,14 +32,14 @@ VALUES (1, 'Gucci', '1998-01-03'),
 
 
 
-INSERT INTO offers (id, `type`, manufacture_year, picture_id, brand_id, `size`, `name`, seller_id, price)
+INSERT INTO offers (id, `type`, manufacture_year, picture_id, brand_id, `size`, `name`, seller_id, price, is_approved, quantity)
 VALUES
-    (1, 'TROUSERS', 1968, 4, 1, 'MEDIUM', 'TROUSERZZZZ', 1, 2601.99),
-    (2, 'T_SHIRT', 1976, 1, 1, 'MEDIUM', 'Tee YEAH', 1, 4000.99),
-    (3, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 2, 4000.99),
-    (4, 'T_SHIRT', 1976, 1, 1, 'MEDIUM', 'Tee YEAH', 2, 4000.99),
-    (5, 'TROUSERS', 1968, 4, 1, 'MEDIUM', 'TROUSERZZZZ', 3, 4000.99),
-    (6, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 2, 4000.99),
-    (7, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99),
-    (8, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99),
-    (9, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99);
+    (1, 'TROUSERS', 1968, 4, 1, 'MEDIUM', 'TROUSERZZZZ', 1, 2601.99, 0, 1),
+    (2, 'T_SHIRT', 1976, 1, 1, 'MEDIUM', 'Tee YEAH', 1, 4000.99, 0, 2),
+    (3, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 2, 4000.99, 1, 3),
+    (4, 'T_SHIRT', 1976, 1, 1, 'MEDIUM', 'Tee YEAH', 2, 4000.99, 0, 4),
+    (5, 'TROUSERS', 1968, 4, 1, 'MEDIUM', 'TROUSERZZZZ', 3, 4000.99, 1, 5),
+    (6, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 2, 4000.99, 1, 6),
+    (7, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99, 1, 7),
+    (8, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99, 0, 8),
+    (9, 'CREW_NECK', 1999, 5, 2, 'MEDIUM', 'CREW_NECK BABY', 1, 4000.99, 0, 6);

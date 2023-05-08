@@ -42,6 +42,9 @@ public class CreateOfferDto {
     @NotNull
     private SizeEnum size;
 
+    @Positive
+    private int quantity;
+
     private String description;
 
     private MultipartFile picture;

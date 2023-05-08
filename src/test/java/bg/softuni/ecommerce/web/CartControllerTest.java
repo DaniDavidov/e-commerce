@@ -37,26 +37,22 @@ class CartControllerTest {
 
     @BeforeEach
     void setUp() {
-        UserEntity publisher = this.testDataUtils.createTestUser("publisher", "publisher@example.com");
-        BrandEntity testBrand = this.testDataUtils.createTestBrand();
-        PictureEntity testPicture = this.testDataUtils.createTestPicture();
-
-        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testBrand, testPicture);
-
-        UserEntity owner = this.testDataUtils.createTestUser("owner", "owner@example.com");
-        this.testCart = new CartEntity(testOffer, ITEM_QUANTITY, owner);
-        this.cartRepository.save(testCart);
+//        UserEntity publisher = this.testDataUtils.createTestUser("publisher", "publisher@example.com");
+//        BrandEntity testBrand = this.testDataUtils.createTestBrand();
+//        PictureEntity testPicture = this.testDataUtils.createTestPicture();
+//
+//        OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testBrand, testPicture);
+//
+//        UserEntity owner = this.testDataUtils.createTestUser("owner", "owner@example.com");
+//        this.testCart = new CartEntity(testOffer, ITEM_QUANTITY, owner);
+//        this.cartRepository.save(testCart);
+        this.testCart = testDataUtils.createTestCart();
 
     }
 
     @AfterEach
     void tearDown() {
-        this.testDataUtils.getCartRepository().deleteAll();
-        this.testDataUtils.getOfferRepository().deleteAll();
-        this.testDataUtils.getItemRepository().deleteAll();
-        this.testDataUtils.getUserRepository().deleteAll();
-        this.testDataUtils.getBrandRepository().deleteAll();
-        this.testDataUtils.getPictureRepository().deleteAll();
+        this.testDataUtils.cleanUpDatabase();
     }
 
     @WithUserDetails(value = "buyer", userDetailsServiceBeanName = "testUserDataService")

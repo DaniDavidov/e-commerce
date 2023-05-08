@@ -36,10 +36,10 @@ class OrderControllerTest {
 
     @BeforeEach
     void setUp() {
-        UserEntity owner = this.testDataUtils.createTestUser("owner", "owner@example.com");
+        UserEntity owner = this.testDataUtils.createTestUser( 1L, "owner", "owner@example.com");
         BrandEntity testBrand = this.testDataUtils.createTestBrand();
         PictureEntity testPicture = this.testDataUtils.createTestPicture();
-        UserEntity publisher = this.testDataUtils.createTestUser("publisher", "publisher@example.com");
+        UserEntity publisher = this.testDataUtils.createTestUser( 2L, "publisher", "publisher@example.com");
         OfferEntity testOffer = this.testDataUtils.createTestOffer(publisher, testBrand, testPicture);
         this.testOrder = new OrderEntity(owner, Map.of(testOffer, 3));
         this.testDataUtils.getOrderRepository().save(testOrder);
@@ -47,12 +47,12 @@ class OrderControllerTest {
 
     @AfterEach
     void tearDown() {
-        testDataUtils.getOrderRepository().deleteAll();
-        testDataUtils.getOfferRepository().deleteAll();
-        testDataUtils.getItemRepository().deleteAll();
-        testDataUtils.getUserRepository().deleteAll();
-        testDataUtils.getBrandRepository().deleteAll();
-        testDataUtils.getPictureRepository().deleteAll();
+//        testDataUtils.getOrderRepository().deleteAll();
+//        testDataUtils.getOfferRepository().deleteAll();
+//        testDataUtils.getUserRepository().deleteAll();
+//        testDataUtils.getBrandRepository().deleteAll();
+//        testDataUtils.getPictureRepository().deleteAll();
+        testDataUtils.cleanUpDatabase();
     }
 
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")

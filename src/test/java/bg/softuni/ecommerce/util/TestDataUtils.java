@@ -61,7 +61,7 @@ public class TestDataUtils {
         return userRepository.save(admin);
     }
 
-    public UserEntity createTestUser(String username, String email) {
+    public UserEntity createTestUser(Long id, String username, String email) {
 
         initRoles();
 
@@ -70,22 +70,24 @@ public class TestDataUtils {
                         findAll().stream().
                         filter(r -> r.getName() == UserRoleEnum.USER).
                         collect(Collectors.toSet()));
-
+        user.setId(id);
         return this.userRepository.save(user);
     }
 
     public BrandEntity createTestBrand() {
         BrandEntity brandEntity =  new BrandEntity("Valentino", "amazing clothes", LocalDate.of(2000, 1, 12));
+        brandEntity.setId(1L);
         return this.brandRepository.save(brandEntity);
     }
 
     public CartEntity createTestCart() {
-        CartEntity cart = new CartEntity(createTestOffer(createTestUser("publisher", "publisher@examle.com"), createTestBrand(), createTestPicture()), 2, createTestUser("buyer", "buyer@example.com"));
+        CartEntity cart = new CartEntity(createTestOffer(createTestUser(1L, "publisher", "publisher@examle.com"), createTestBrand(), createTestPicture()), 2, createTestUser(2L, "buyer", "buyer@example.com"));
         return this.cartRepository.save(cart);
     }
 
     public OfferEntity createTestOffer(UserEntity publisher, BrandEntity brand, PictureEntity picture) {
-        OfferEntity offer = new OfferEntity(ItemType.TROUSERS, 2000, picture, brand, SizeEnum.LARGE, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000), LocalDate.now(), LocalDate.now(), "text");
+        OfferEntity offer = new OfferEntity(ItemType.TROUSERS, 2000, picture, brand, SizeEnum.LARGE, "a test offer", OfferRating.ZERO, publisher, BigDecimal.valueOf(2000),2, LocalDate.now(), LocalDate.now(), "text", true);
+        offer.setId(1L);
         return this.offerRepository.save(offer);
     }
 
@@ -105,12 +107,12 @@ public class TestDataUtils {
 
     public PictureEntity createTestPicture() {
         PictureEntity picture = new PictureEntity("");
-
+        picture.setId(1L);
         return this.pictureRepository.save(picture);
     }
 
     public OrderEntity createTestOrder() {
-        OrderEntity order = new OrderEntity(createTestUser("user1", "user1@xample.com"), createTestItems());
+        OrderEntity order = new OrderEntity(createTestUser(1L, "user1", "user1@xample.com"), createTestItems());
         return this.orderRepository.save(order);
     }
 
@@ -119,7 +121,7 @@ public class TestDataUtils {
         BrandEntity testBrand = createTestBrand();
         PictureEntity testPicture = createTestPicture();
 
-        UserEntity publisher = createTestUser("publisher", "publisher@example.com");
+        UserEntity publisher = createTestUser(1L,"publisher", "publisher@example.com");
         items.put(createTestOffer(publisher, testBrand, testPicture), 3);
         return items;
     }

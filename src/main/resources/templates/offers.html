@@ -29,7 +29,8 @@
 <!--                </li>-->
 <!--            </ul>-->
 <!--        </div>-->
-        <h2 class="text-center text-white mt-5" th:if="${offers.hasContent()}">All Offers</h2>
+        <button type="button" class="btn" ><a th:href="@{${link}}">See all <span th:text="${type}"/> offers</a></button>
+        <h2 class="text-center text-white mt-5" th:if="${offers.hasContent()}" th:text="${title}">All Offers</h2>
         <h2 class="text-center text-white mt-5" th:unless="${offers.hasContent()}">No offers meeting the criteria</h2>
         <div class="offers row mx-auto d-flex flex-row justify-content-center">
             <div th:each="offer: ${offers.getContent()}"

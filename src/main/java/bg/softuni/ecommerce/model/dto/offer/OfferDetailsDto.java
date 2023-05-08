@@ -41,5 +41,9 @@ public class OfferDetailsDto {
 
     private LocalDate lastModified;
 
+    private boolean isApproved;
+
+    private int quantity;
+
 
 }

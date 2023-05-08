@@ -51,7 +51,7 @@ class OfferControllerTest {
     void setUp() {
         BrandEntity testBrand = testDataUtils.createTestBrand();
 
-        UserEntity seller = testDataUtils.createTestUser("seller", "seller@example.com");
+        UserEntity seller = testDataUtils.createTestUser( 1L,"seller", "seller@example.com");
 
         PictureEntity testPicture = testDataUtils.createTestPicture();
 
@@ -60,10 +60,10 @@ class OfferControllerTest {
 
     @AfterEach
     void tearDown() {
-        testDataUtils.getOfferRepository().deleteAll();
-        testDataUtils.getItemRepository().deleteAll();
-        testDataUtils.getBrandRepository().deleteAll();
-        testDataUtils.getUserRepository().deleteAll();
+//        testDataUtils.getOfferRepository().deleteAll();
+//        testDataUtils.getBrandRepository().deleteAll();
+//        testDataUtils.getUserRepository().deleteAll();
+        testDataUtils.cleanUpDatabase();
     }
 
     @Test

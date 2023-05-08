@@ -38,7 +38,6 @@ public class OfferEntity extends BaseEntity {
     @Column(nullable = false)
     private SizeEnum size;
 
-
     @Column(nullable = false)
     private String name;
 
@@ -51,6 +50,9 @@ public class OfferEntity extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(nullable = false)
+    private int quantity;
+
     @Column(name = "created_at")
     private LocalDate createdAt;
 
@@ -58,6 +60,8 @@ public class OfferEntity extends BaseEntity {
     private LocalDate updatedAt;
 
     private String description;
+
+    private boolean isApproved;
 
 
 }

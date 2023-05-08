@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OfferService {
@@ -49,7 +51,13 @@ public class OfferService {
 
     public Page<OfferDetailsDto> getAllOffers(Pageable pageable) {
         return offerRepository
-                .findAll(pageable)
+                .findAllApprovedOffers(pageable)
+                .map(this::mapToOfferDetails);
+    }
+
+    public Page<OfferDetailsDto> getAllUnapprovedOffers(Pageable pageable) {
+        return this.offerRepository
+                .findAllUnapprovedOffers(pageable)
                 .map(this::mapToOfferDetails);
     }
 
@@ -81,6 +89,7 @@ public class OfferService {
 
         OfferEntity updatedOffer = mapToOfferEntity(createOfferDto, currentOffer.getSeller(), picture, brand);
         updatedOffer.setId(currentOffer.getId());
+        updatedOffer.setUpdatedAt(LocalDate.now());
         this.offerRepository.save(updatedOffer);
     }
 
@@ -95,6 +104,13 @@ public class OfferService {
         return this.pictureRepository.save(pictureEntity);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void approveOffer(Long offerId) {
+        OfferEntity offer = getOfferById(offerId);
+        offer.setApproved(true);
+        this.offerRepository.save(offer);
+    }
+
     private OfferEntity mapToOfferEntity(CreateOfferDto createOfferDto, UserEntity user, PictureEntity picture, BrandEntity brand) {
         return new OfferEntity(
                 createOfferDto.getClotheType(),
@@ -106,9 +122,11 @@ public class OfferService {
                 DEFAULT_OFFER_RATING,
                 user,
                 createOfferDto.getPrice(),
+                createOfferDto.getQuantity(),
                 LocalDate.now(),
                 LocalDate.now(),
-                createOfferDto.getDescription());
+                createOfferDto.getDescription(),
+                false);
     }
 
     public OfferDetailsDto mapToOfferDetails(OfferEntity offerEntity) {
@@ -125,7 +143,9 @@ public class OfferService {
                 offerEntity.getSeller().getId(),
                 offerEntity.getSeller().getUsername(),
                 offerEntity.getCreatedAt(),
-                offerEntity.getUpdatedAt());
+                offerEntity.getUpdatedAt(),
+                offerEntity.isApproved(),
+                offerEntity.getQuantity());
     }
 
     public CreateOfferDto mapToCreateOfferDto(OfferEntity offerEntity) {
@@ -136,9 +156,9 @@ public class OfferService {
                 offerEntity.getPrice(),
                 offerEntity.getType(),
                 offerEntity.getSize(),
+                offerEntity.getQuantity(),
                 offerEntity.getDescription(),
                 null);
 
     }
-
 }

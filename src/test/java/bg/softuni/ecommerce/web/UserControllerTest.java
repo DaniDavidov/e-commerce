@@ -40,15 +40,14 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.testUser = testDataUtils.createTestUser("user", "user@example.com");
+        this.testUser = testDataUtils.createTestUser( 1L, "user", "user@example.com");
     }
 
     @AfterEach
     void tearUp() {
-        if (testDataUtils.getUserRepository().count() > 0) {
-            testDataUtils.getUserRepository().deleteAll();
-            testDataUtils.getUserRoleRepository().deleteAll();
-        }
+//            testDataUtils.getUserRepository().deleteAll();
+//            testDataUtils.getUserRoleRepository().deleteAll();
+        testDataUtils.cleanUpDatabase();
     }
 
     @WithMockUser(username = "user", authorities = "ROLE_USER")
