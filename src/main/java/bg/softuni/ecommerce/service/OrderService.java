@@ -5,8 +5,10 @@ import bg.softuni.ecommerce.model.entity.CartEntity;
 import bg.softuni.ecommerce.model.entity.OfferEntity;
 import bg.softuni.ecommerce.model.entity.OrderEntity;
 import bg.softuni.ecommerce.model.entity.UserEntity;
+import bg.softuni.ecommerce.model.events.BuyProductEvent;
 import bg.softuni.ecommerce.repository.OrderRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +18,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Service
 public class OrderService {
 
     private final CartService cartService;
     private final UserService userService;
     private final OrderRepository orderRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public OrderService(CartService cartService, UserService userService, OrderRepository orderRepository) {
+    public OrderService(CartService cartService, UserService userService, OrderRepository orderRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.cartService = cartService;
         this.userService = userService;
         this.orderRepository = orderRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional
@@ -45,6 +47,8 @@ public class OrderService {
         }
 
         OrderEntity orderEntity = new OrderEntity(buyer, offers);
+        BuyProductEvent buyProductEvent = new BuyProductEvent(this, cart);
+        applicationEventPublisher.publishEvent(buyProductEvent);
 
         this.orderRepository.save(orderEntity);
     }

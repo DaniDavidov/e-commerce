@@ -4,6 +4,7 @@ const quantityInputField = document.getElementById('quantity');
 const addToCartForm = document.getElementById('addToCartForm');
 const bookIdInputField = document.getElementById('offerId');
 const addToCartSection = document.getElementById('addToCartSection');
+const productQuantity = document.getElementById('productQuantity');
 const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 
@@ -49,7 +50,14 @@ function decreaseQuantity() {
 minusBtn.addEventListener('click', decreaseQuantity);
 
 function increaseQuantity() {
-    quantityInputField.value = Number(Number(quantityInputField.value) + 1);
+    let newValue = Number(Number(quantityInputField.value) + 1);
+    let quantity = Number(productQuantity.value);
+
+    if (newValue >= quantity) {
+        newValue = quantity;
+    }
+
+    quantityInputField.value = newValue;
 }
 
 plusBtn.addEventListener('click', increaseQuantity);

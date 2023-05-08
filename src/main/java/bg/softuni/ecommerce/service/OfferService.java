@@ -5,9 +5,11 @@ import bg.softuni.ecommerce.model.dto.offer.OfferDetailsDto;
 import bg.softuni.ecommerce.model.entity.*;
 import bg.softuni.ecommerce.model.entity.enums.OfferRating;
 import bg.softuni.ecommerce.model.error.OfferNotFoundException;
+import bg.softuni.ecommerce.model.events.BuyProductEvent;
 import bg.softuni.ecommerce.repository.OfferRepository;
 import bg.softuni.ecommerce.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -109,6 +111,20 @@ public class OfferService {
         OfferEntity offer = getOfferById(offerId);
         offer.setApproved(true);
         this.offerRepository.save(offer);
+    }
+
+    @EventListener(BuyProductEvent.class)
+    public void decreaseQuantity(BuyProductEvent buyProductEvent) {
+        List<CartEntity> shoppingCart = buyProductEvent.getShoppingCart();
+
+        for (CartEntity cart : shoppingCart) {
+            OfferEntity offer = cart.getOffer();
+            int currentProductQuantity = offer.getQuantity();
+            int quantityToBeBought = cart.getQuantity();
+
+            offer.setQuantity(currentProductQuantity - quantityToBeBought);
+            this.offerRepository.save(offer);
+        }
     }
 
     private OfferEntity mapToOfferEntity(CreateOfferDto createOfferDto, UserEntity user, PictureEntity picture, BrandEntity brand) {

@@ -38,12 +38,15 @@
                     <div class="card-text">• Offer created: <span th:text="*{createdAt}"></span></div>
                     <div class="card-text">• Offer modified: <span th:text="*{lastModified}"></span></div>
                     <div class="card-text">• Seller: <span><a th:href="@{/users/{id}/details(id=*{sellerId})}" th:text="*{sellerUsername}"></a> </span></div>
+                    <div class="card-text">• Quantity: <span th:text="*{quantity}"></span></div>
                 </li>
             </ul>
             <div class="card-body">
                 <div sec:authorize="isAuthenticated()" id="addToCartSection">
                     <div class="input-group mb-3">
                         <input type="hidden" id="offerId" name="offerId" th:value="*{id}">
+                        <input type="hidden" id="productQuantity" name="productQuantity" th:value="*{quantity}">
+
                         <div class="input-group-prepend">
                             <button class="btn btn-outline-secondary" type="button" id="minusBtn">-</button>
                         </div>
