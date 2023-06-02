@@ -1,9 +1,11 @@
 spring:
+  config:
+    import: file:env.properties
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/ecommerce?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
-    username: root
-    password: 181315durwo
+    url: "jdbc:mysql://${MYSQL_HOST:localhost:}3306/ecommerce?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS}
   sql:
     init:
       mode: always
@@ -26,15 +28,12 @@ spring:
   main:
     allow-circular-references: true
   mail:
-    host: localhost
-    port: 1025
-    username: "admin@example.com"
-    password: ""
+    host: smtp.gmail.com
+    port: 587
+    username: danidavidov13.dd@gmail.com
+    password: ${MAIL_PASS}
 
 server:
   port: 8050
 
-app:
-  default:
-    password: topsecret
 

@@ -52,7 +52,7 @@ class CartControllerTest {
 
     @AfterEach
     void tearDown() {
-        this.testDataUtils.cleanUpDatabase();
+        this.testDataUtils.getCartRepository().deleteAll();
     }
 
     @WithUserDetails(value = "buyer", userDetailsServiceBeanName = "testUserDataService")

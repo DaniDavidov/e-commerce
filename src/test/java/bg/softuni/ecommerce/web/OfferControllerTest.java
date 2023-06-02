@@ -60,10 +60,9 @@ class OfferControllerTest {
 
     @AfterEach
     void tearDown() {
-//        testDataUtils.getOfferRepository().deleteAll();
-//        testDataUtils.getBrandRepository().deleteAll();
-//        testDataUtils.getUserRepository().deleteAll();
-        testDataUtils.cleanUpDatabase();
+        testDataUtils.getOfferRepository().deleteAll();
+        testDataUtils.getBrandRepository().deleteAll();
+        testDataUtils.getUserRepository().deleteAll();
     }
 
     @Test
@@ -111,6 +110,7 @@ class OfferControllerTest {
                 .param("price", "200")
                 .param("clotheType", ItemType.TROUSERS.name())
                 .param("size", SizeEnum.MEDIUM.name())
+                .param("quantity", "2")
                 .param("description", "wefhiuhwiu")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
@@ -163,6 +163,7 @@ class OfferControllerTest {
                         .param("price", BigDecimal.valueOf(2000).toString())
                         .param("clotheType", ItemType.CREW_NECK.name())
                         .param("size", SizeEnum.MEDIUM.name())
+                        .param("quantity", "2")
                         .param("description", "some text"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(String.format("redirect:/offers/%d/details", testOffer.getId())));

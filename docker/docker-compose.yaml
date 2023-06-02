@@ -1,10 +1,28 @@
 version: '3.3'
 
 services:
+  db:
+    image: arm64v8/mysql:oracle
+    ports:
+      - "3306:3306"
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_bin', '--default-authentication-plugin=mysql_native_password' ]
+    environment:
+        - MYSQL_ALLOW_EMPTY_PASSWORD="yes"
+        - MYSQL_DATABASE=e-commerce
   mailhog:
     image: mailhog/mailhog
     logging:
       driver: 'none'
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
+  e-commerce:
+    image: danieldavidov/e-commerce:v1
+    depends_on: [db]
+    ports:
+      - "8080:8080"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASS=181315durwo
+      - MAIL_HOST=localhost

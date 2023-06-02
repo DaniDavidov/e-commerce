@@ -42,7 +42,7 @@ class BrandControllerTest {
 
     @AfterEach
     void tearUp() {
-        this.testDataUtils.cleanUpDatabase();
+        this.testDataUtils.getBrandRepository().deleteAll();
     }
 
     @Test
